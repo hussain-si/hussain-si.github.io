@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Playwright TS | Theory Map</title>
+  <title>Automation Learning Hub | Hussain</title>
   <script>
     (function () {
       if (!/[?&]m=1(?:[&#]|$)/.test(location.search)) return;
@@ -17,2361 +16,1408 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <style>
-:root {
-  color-scheme: light;
-  --ink: #0d141f;
-  --ink-soft: #1f2b3a;
-  --muted: #526172;
-  --paper: #f6f4ef;
-  --panel: #ffffff;
-  --panel-soft: #f8fafc;
-  --accent: #1c7ed6;
-  --accent-2: #12b886;
-  --accent-3: #f2a65a;
-  --shadow-soft: 0 8px 20px rgba(13, 23, 35, 0.08);
-  --shadow: 0 18px 40px rgba(13, 23, 35, 0.12);
-  --shadow-strong: 0 24px 50px rgba(13, 23, 35, 0.18);
-  --radius-sm: 12px;
-  --radius: 18px;
-  --radius-lg: 24px;
-  --border: 1px solid rgba(13, 23, 35, 0.08);
-  --font-display: "Space Grotesk", "Trebuchet MS", "Segoe UI", sans-serif;
-  --font-body: "IBM Plex Sans", "Segoe UI", sans-serif;
-  --font-mono: "JetBrains Mono", "Consolas", "Courier New", monospace;
-  --scale: 1.06;
-}
-* {
-  box-sizing: border-box;
-}
-html {
-  scroll-behavior: smooth;
-}
-body {
-  margin: 0;
-  min-height: 100vh;
-  font-family: var(--font-body);
-  font-size: calc(15px * var(--scale));
-  line-height: 1.6;
-  color: var(--ink);
-  background:
-    radial-gradient(circle at 12% 12%, rgba(28, 126, 214, 0.18), transparent 55%),
-    radial-gradient(circle at 85% 18%, rgba(18, 184, 134, 0.16), transparent 50%),
-    linear-gradient(180deg, #f8f7f3 0%, #eef2f6 50%, #f6f0e9 100%);
-  position: relative;
-  overflow-x: hidden;
-}
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background:
-    repeating-linear-gradient(90deg, rgba(12, 22, 32, 0.05) 0 1px, transparent 1px 80px),
-    repeating-linear-gradient(0deg, rgba(12, 22, 32, 0.04) 0 1px, transparent 1px 80px);
-  opacity: 0.35;
-  z-index: -1;
-}
-.bg-veil {
-  position: fixed;
-  inset: -20% -10% -10% -10%;
-  pointer-events: none;
-  background:
-    radial-gradient(circle at 20% 15%, rgba(47, 158, 243, 0.2), transparent 55%),
-    radial-gradient(circle at 85% 12%, rgba(18, 184, 134, 0.18), transparent 55%),
-    radial-gradient(circle at 65% 80%, rgba(242, 166, 90, 0.18), transparent 60%);
-  z-index: -2;
-}
-@keyframes riseIn {
-  from {
-    opacity: 0;
-    transform: translateY(14px) scale(0.985);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  *,
-  *::before,
-  *::after {
-    animation: none !important;
-    transition: none !important;
-  }
-}
-.topbar {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  padding: 20px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  backdrop-filter: blur(12px) saturate(160%);
-  background: rgba(255, 255, 255, 0.9);
-  border-bottom: 1px solid rgba(12, 22, 32, 0.08);
-  box-shadow: 0 8px 24px rgba(13, 23, 35, 0.08);
-  animation: fadeIn 520ms ease-out both;
-}
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.brand-mark {
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
-  display: grid;
-  place-items: center;
-  font-family: var(--font-display);
-  font-weight: 700;
-  color: #f9fbff;
-  background: linear-gradient(135deg, #0d141f, #1c2f41 65%, #1c7ed6);
-  letter-spacing: 1px;
-  font-size: calc(16px * var(--scale));
-  box-shadow: 0 10px 18px rgba(13, 23, 35, 0.25);
-}
-.brand-title {
-  font-family: var(--font-display);
-  font-size: calc(19px * var(--scale));
-  letter-spacing: 0.4px;
-}
-.brand-sub {
-  font-size: calc(13px * var(--scale));
-  color: var(--muted);
-}
-.brand-sub a {
-  color: var(--accent);
-  text-decoration: none;
-  font-weight: 600;
-}
-.brand-sub a:hover,
-.brand-sub a:focus-visible {
-  text-decoration: underline;
-}
-.topbar-actions {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  width: fit-content;
-  margin-left: 0;
-}
-.app {
-  max-width: 1240px;
-  margin: 0 auto;
-  padding: 28px 32px 80px;
-  display: grid;
-  gap: 28px;
-}
-.view[hidden] {
-  display: none;
-}
-.hero {
-  display: grid;
-  gap: 18px;
-  align-items: center;
-}
-.hero-main {
-  display: grid;
-  gap: 10px;
-}
-.eyebrow {
-  font-size: calc(11px * var(--scale));
-  letter-spacing: 2.6px;
-  text-transform: uppercase;
-  color: var(--accent-2);
-  margin: 0;
-}
-h1,
-h2,
-h3 {
-  font-family: var(--font-display);
-  margin: 0 0 8px;
-  color: var(--ink-soft);
-}
-h1 {
-  font-size: calc(26px * var(--scale));
-  line-height: 1.2;
-  max-width: 30ch;
-}
-h2 {
-  font-size: calc(20px * var(--scale));
-}
-h3 {
-  font-size: calc(16px * var(--scale));
-}
-.lead {
-  margin: 0;
-  color: var(--muted);
-  font-size: calc(14px * var(--scale));
-  max-width: 60ch;
-}
-.hero-actions {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-top: 6px;
-}
-.hero-chips {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-top: 8px;
-}
-.chip {
-  background: rgba(28, 126, 214, 0.1);
-  color: var(--ink-soft);
-  border: 1px solid rgba(28, 126, 214, 0.18);
-  padding: 6px 10px;
-  border-radius: 999px;
-  font-size: calc(11px * var(--scale));
-  font-weight: 600;
-  letter-spacing: 0.2px;
-}
-.hero-card {
-  background: linear-gradient(180deg, #ffffff 0%, #f7fafc 100%);
-  padding: 18px;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-soft);
-  border: var(--border);
-  display: grid;
-  gap: 10px;
-  position: relative;
-  overflow: hidden;
-}
-.hero-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(160px circle at top right, rgba(28, 126, 214, 0.16), transparent 60%);
-  opacity: 0.8;
-  pointer-events: none;
-}
-.hero-list {
-  display: grid;
-  gap: 8px;
-  color: var(--muted);
-  font-size: calc(13px * var(--scale));
-  position: relative;
-  z-index: 1;
-}
-.hero-item {
-  padding: 8px 10px;
-  border-left: 3px solid var(--accent);
-  background: rgba(28, 126, 214, 0.08);
-  border-radius: 10px;
-}
-.hero-metrics {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-  gap: 10px;
-  position: relative;
-  z-index: 1;
-}
-.metric {
-  background: #ffffff;
-  border: 1px solid rgba(13, 23, 35, 0.08);
-  border-radius: var(--radius-sm);
-  padding: 10px 12px;
-}
-.metric-value {
-  font-family: var(--font-display);
-  font-size: calc(18px * var(--scale));
-  font-weight: 700;
-  color: var(--ink-soft);
-}
-.metric-label {
-  font-size: calc(10px * var(--scale));
-  text-transform: uppercase;
-  letter-spacing: 1.4px;
-  color: var(--muted);
-}
-.topics-head {
-  display: grid;
-  gap: 8px;
-}
-.topics-title {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-.topics-title h2 {
-  margin: 0;
-}
-  .pill {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    white-space: nowrap;
-    background: rgba(18, 184, 134, 0.12);
-    color: #0f6f57;
-    border: 1px solid rgba(18, 184, 134, 0.22);
-    font-weight: 600;
-    letter-spacing: 0.3px;
-    padding: 4px 10px;
-    border-radius: 999px;
-    font-size: calc(11px * var(--scale));
-    text-transform: uppercase;
-  }
-  .pill-api {
-    background: rgba(28, 126, 214, 0.12);
-    color: #1a5a9a;
-    border: 1px solid rgba(28, 126, 214, 0.25);
-  }
-  .section-divider {
-    border: none;
-    height: 1px;
-    margin: 18px 0 6px;
-    background: linear-gradient(90deg, rgba(13, 23, 35, 0), rgba(13, 23, 35, 0.12), rgba(13, 23, 35, 0));
-  }
-.pill-secondary {
-  background: rgba(28, 126, 214, 0.12);
-  color: #174f85;
-  border: 1px solid rgba(28, 126, 214, 0.22);
-}
-.sublead {
-  margin: 0;
-  color: var(--muted);
-  font-size: calc(13px * var(--scale));
-  max-width: 65ch;
-}
-.topics {
-  display: grid;
-  gap: 16px;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  margin-top: 8px;
-}
-.progress-row {
-  display: grid;
-  gap: 10px;
-  padding: 10px 12px;
-  border-radius: var(--radius-sm);
-  border: 1px solid rgba(13, 23, 35, 0.08);
-  background: rgba(255, 255, 255, 0.7);
-  box-shadow: var(--shadow-soft);
-  margin-top: 8px;
-}
-.progress-meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-.progress-count {
-  font-family: var(--font-display);
-  font-weight: 600;
-  letter-spacing: 0.3px;
-  color: var(--ink-soft);
-}
-.progress-bar {
-  width: 100%;
-  height: 8px;
-  background: rgba(13, 23, 35, 0.12);
-  border-radius: 999px;
-  overflow: hidden;
-}
-.progress-fill {
-  height: 100%;
-  width: 0%;
-  border-radius: 999px;
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
-  transition: width 0.25s ease;
-}
-.topic-card {
-  background: linear-gradient(180deg, #ffffff 0%, #f7f9fb 100%);
-  border-radius: var(--radius);
-  border: var(--border);
-  box-shadow: var(--shadow-soft);
-  padding: 16px;
-  display: grid;
-  gap: 10px;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.2s ease;
-  position: relative;
-  overflow: hidden;
-  min-height: 140px;
-}
-.topic-card.done {
-  border-color: rgba(18, 184, 134, 0.35);
-  box-shadow: var(--shadow);
-}
-.topic-status {
-  display: none;
-  width: fit-content;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: rgba(18, 184, 134, 0.14);
-  color: #0f6f57;
-  font-size: calc(10px * var(--scale));
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 600;
-}
-.topic-card.done .topic-status {
-  display: inline-flex;
-}
-.topic-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(140px circle at top right, rgba(28, 126, 214, 0.14), transparent 60%);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
-}
-.topic-card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(28, 126, 214, 0.35);
-  box-shadow: var(--shadow);
-}
-.topic-card:hover::before {
-  opacity: 1;
-}
-.topic-card.active {
-  border-color: rgba(28, 126, 214, 0.5);
-  box-shadow: var(--shadow);
-}
-.topic-card.active::before {
-  opacity: 1;
-}
-.topic-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-.topic-number {
-  font-family: var(--font-mono);
-  font-size: calc(11px * var(--scale));
-  color: var(--muted);
-  background: rgba(15, 26, 37, 0.06);
-  padding: 4px 9px;
-  border-radius: 999px;
-  border: 1px solid rgba(13, 23, 35, 0.08);
-}
-.topic-summary {
-  margin: 0;
-  color: var(--muted);
-  font-size: calc(13px * var(--scale));
-}
-.topic-meta {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-top: auto;
-}
-.topic-time {
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: rgba(28, 126, 214, 0.1);
-  color: #174f85;
-  border: 1px solid rgba(28, 126, 214, 0.18);
-  font-size: calc(10px * var(--scale));
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  font-weight: 600;
-}
-button,
-.primary,
-.ghost {
-  font-family: var(--font-body);
-  border: none;
-  padding: 10px 16px;
-  border-radius: 999px;
-  cursor: pointer;
-  font-size: calc(13px * var(--scale));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-weight: 600;
-  letter-spacing: 0.2px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.2s ease, background 0.2s ease;
-}
-.tiny {
-  padding: 6px 10px;
-  font-size: calc(11px * var(--scale));
-}
-.primary {
-  background: linear-gradient(135deg, #0d1b2a, #1c7ed6);
-  color: #f9fbff;
-  border: 1px solid rgba(28, 126, 214, 0.4);
-  box-shadow: 0 12px 24px rgba(28, 126, 214, 0.25);
-}
-.ghost {
-  background: rgba(15, 26, 37, 0.06);
-  color: var(--ink);
-  border: 1px solid rgba(13, 23, 35, 0.14);
-}
-button:hover,
-.primary:hover,
-.ghost:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 12px 20px rgba(13, 23, 35, 0.14);
-}
-button:focus-visible,
-.topic-card:focus-visible {
-  outline: 3px solid rgba(28, 126, 214, 0.35);
-  outline-offset: 2px;
-}
-.section-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-.detail-panel {
-  background: var(--panel);
-  padding: 18px;
-  border-radius: var(--radius-lg);
-  border: var(--border);
-  box-shadow: var(--shadow);
-  display: grid;
-  gap: 16px;
-  align-items: start;
-  align-content: start;
-  grid-auto-rows: min-content;
-  min-width: 0;
-}
-.view.animate .hero {
-  animation: riseIn 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-.view.animate .hero-card {
-  animation: riseIn 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
-  animation-delay: 120ms;
-}
-.view.animate .topics-head {
-  animation: riseIn 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
-  animation-delay: 180ms;
-}
-.view.animate .topic-card {
-  animation: riseIn 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
-  animation-delay: calc(var(--stagger, 0) * 60ms);
-}
-.view.animate .detail-panel {
-  animation: riseIn 620ms cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-.detail-header {
-  display: grid;
-  gap: 6px;
-}
-.detail-meta {
-  font-size: calc(12px * var(--scale));
-  color: var(--muted);
-}
-.detail-progress {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-  background: var(--panel-soft);
-  padding: 12px 14px;
-  border-radius: var(--radius-sm);
-  border: 1px solid rgba(13, 23, 35, 0.06);
-}
-.checkline {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 600;
-  color: var(--ink-soft);
-}
-.checkline input {
-  width: 16px;
-  height: 16px;
-  accent-color: var(--accent-2);
-}
-.detail-hint {
-  font-size: calc(11px * var(--scale));
-  color: var(--muted);
-}
-.detail-step {
-  font-size: calc(11px * var(--scale));
-  text-transform: uppercase;
-  letter-spacing: 1.4px;
-  color: var(--accent-2);
-}
-.detail-owner {
-  font-size: calc(12px * var(--scale));
-  color: var(--muted);
-}
-.detail-section {
-  display: grid;
-  gap: 8px;
-  background: var(--panel-soft);
-  padding: 14px;
-  border-radius: var(--radius-sm);
-  border: 1px solid rgba(13, 23, 35, 0.06);
-  align-self: start;
-  height: fit-content;
-  min-width: 0;
-}
-.detail-list {
-  margin: 0;
-  padding-left: 18px;
-  display: grid;
-  gap: 6px;
-  color: var(--muted);
-}
-.detail-label {
-  list-style: none;
-  margin-left: -18px;
-  font-weight: 400;
-  color: var(--muted);
-  margin-top: 8px;
-}
-.detail-label + li {
-  margin-top: 2px;
-}
-.code-block {
-  margin: 0;
-  padding: 14px;
-  border-radius: 12px;
-  background: #0b1220;
-  color: #f7fbff;
-  font-family: var(--font-mono);
-  font-size: calc(12px * var(--scale));
-  line-height: 1.55;
-  overflow-x: auto;
-  overflow-y: hidden;
-  white-space: pre;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: inset 0 0 0 1px rgba(15, 26, 37, 0.2);
-  max-height: 220px;
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-}
-.code-block.expanded {
-  max-height: none;
-}
-.code-wrap {
-  position: relative;
-  min-width: 0;
-  overflow: hidden;
-}
-.code-fade {
-  position: absolute;
-  left: 1px;
-  right: 1px;
-  bottom: 1px;
-  height: 42px;
-  border-radius: 10px;
-  background: linear-gradient(180deg, rgba(11, 18, 32, 0) 0%, rgba(11, 18, 32, 0.9) 85%, #0b1220 100%);
-  pointer-events: none;
-  transition: opacity 0.2s ease;
-}
-.code-fade.hidden {
-  opacity: 0;
-}
-.code-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-.code-copy {
-  white-space: nowrap;
-  padding: 4px 8px;
-  font-size: calc(10px * var(--scale));
-}
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  --ink: #e6edf5;
-  --ink-soft: #f3f6fb;
-  --muted: #a6b2c1;
-  --paper: #0b0f14;
-  --panel: #111823;
-  --panel-soft: #0f1722;
-  --accent: #62a5ff;
-  --accent-2: #3ddc97;
-  --accent-3: #ffb76b;
-  --shadow-soft: 0 8px 20px rgba(0, 0, 0, 0.45);
-  --shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
-  --shadow-strong: 0 24px 50px rgba(0, 0, 0, 0.65);
-  --border: 1px solid rgba(255, 255, 255, 0.08);
-}
-:root[data-theme="dark"] body {
-  background:
-    radial-gradient(circle at 12% 12%, rgba(98, 165, 255, 0.18), transparent 55%),
-    radial-gradient(circle at 85% 18%, rgba(61, 220, 151, 0.12), transparent 50%),
-    linear-gradient(180deg, #0b1018 0%, #0a0f16 40%, #0e141d 100%);
-}
-:root[data-theme="dark"] body::after {
-  background:
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 90px),
-    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 90px);
-  opacity: 0.25;
-}
-:root[data-theme="dark"] .bg-veil {
-  background:
-    radial-gradient(circle at 20% 15%, rgba(98, 165, 255, 0.22), transparent 55%),
-    radial-gradient(circle at 85% 12%, rgba(61, 220, 151, 0.2), transparent 55%),
-    radial-gradient(circle at 65% 80%, rgba(255, 183, 107, 0.18), transparent 60%);
-}
-:root[data-theme="dark"] .topbar {
-  background: rgba(12, 16, 22, 0.88);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
-}
-:root[data-theme="dark"] .hero-card {
-  background: linear-gradient(180deg, #141b26 0%, #0f1722 100%);
-}
-:root[data-theme="dark"] .hero-item {
-  background: rgba(98, 165, 255, 0.14);
-}
-:root[data-theme="dark"] .metric {
-  background: rgba(17, 24, 35, 0.9);
-  border-color: rgba(255, 255, 255, 0.08);
-}
-:root[data-theme="dark"] .progress-row {
-  background: rgba(16, 22, 32, 0.8);
-  border-color: rgba(255, 255, 255, 0.08);
-}
-:root[data-theme="dark"] .pill {
-  background: rgba(61, 220, 151, 0.16);
-  color: #b6f1d6;
-  border-color: rgba(61, 220, 151, 0.34);
-}
-:root[data-theme="dark"] .pill-secondary {
-  background: rgba(98, 165, 255, 0.16);
-  color: #cfe3ff;
-  border-color: rgba(98, 165, 255, 0.35);
-}
-:root[data-theme="dark"] .topic-card {
-  background: linear-gradient(180deg, #121a26 0%, #0e1622 100%);
-}
-:root[data-theme="dark"] .topic-number {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.12);
-}
-:root[data-theme="dark"] .topic-time {
-  background: rgba(98, 165, 255, 0.16);
-  color: #cfe3ff;
-  border-color: rgba(98, 165, 255, 0.35);
-}
-:root[data-theme="dark"] .topic-status {
-  background: rgba(61, 220, 151, 0.18);
-  color: #b6f1d6;
-}
-:root[data-theme="dark"] .ghost {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.18);
-  color: var(--ink);
-}
-:root[data-theme="dark"] .detail-section,
-:root[data-theme="dark"] .detail-progress {
-  border-color: rgba(255, 255, 255, 0.06);
-}
-:root[data-theme="dark"] .code-block {
-  background: #0f172a;
-  border-color: rgba(255, 255, 255, 0.1);
-}
-:root[data-theme="dark"] .code-fade {
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0) 0%, rgba(15, 23, 42, 0.9) 85%, #0f172a 100%);
-}
-:root[data-theme="dark"] .pill-api {
-  background: rgba(98, 165, 255, 0.16);
-  color: #cfe3ff;
-  border-color: rgba(98, 165, 255, 0.35);
-}
-:root[data-theme="dark"] .section-divider {
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0));
-}
-@media (min-width: 900px) {
-  .topbar {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .topbar-actions {
-    margin-left: auto;
-  }
-  .hero {
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-  }
-}
-@media (min-width: 960px) {
-  .detail-panel {
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-  }
-  .detail-header {
-    grid-column: 1 / -1;
-  }
-  .detail-progress {
-    grid-column: 1 / -1;
-  }
-}
-@media (max-width: 720px) {
-  .app {
-    padding: 24px 18px 64px;
-  }
-  h1 {
-    font-size: calc(22px * var(--scale));
-  }
-}
-</style>
+    :root {
+      color-scheme: light;
+      --ink: #0d141f;
+      --ink-soft: #1f2b3a;
+      --muted: #556576;
+      --paper: #f6f4ef;
+      --panel: rgba(255, 255, 255, 0.9);
+      --panel-strong: #ffffff;
+      --panel-soft: rgba(248, 250, 252, 0.92);
+      --accent: #1c7ed6;
+      --accent-2: #12b886;
+      --accent-3: #f59f45;
+      --accent-4: #3178c6;
+      --line: rgba(13, 23, 35, 0.08);
+      --shadow-soft: 0 14px 34px rgba(13, 23, 35, 0.08);
+      --shadow: 0 20px 42px rgba(13, 23, 35, 0.14);
+      --radius-sm: 14px;
+      --radius: 22px;
+      --radius-lg: 30px;
+      --font-display: "Space Grotesk", "Trebuchet MS", "Segoe UI", sans-serif;
+      --font-body: "IBM Plex Sans", "Segoe UI", sans-serif;
+      --font-mono: "JetBrains Mono", "Consolas", "Courier New", monospace;
+    }
+
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --ink: #e7eef8;
+      --ink-soft: #f7fbff;
+      --muted: #9cb0c5;
+      --paper: #08111a;
+      --panel: rgba(15, 24, 35, 0.88);
+      --panel-strong: #101925;
+      --panel-soft: rgba(17, 28, 42, 0.94);
+      --accent: #62a5ff;
+      --accent-2: #49d7a6;
+      --accent-3: #ffbc6b;
+      --accent-4: #72b1ff;
+      --line: rgba(255, 255, 255, 0.08);
+      --shadow-soft: 0 16px 34px rgba(0, 0, 0, 0.28);
+      --shadow: 0 22px 46px rgba(0, 0, 0, 0.45);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: auto; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font-body);
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 12%, rgba(28, 126, 214, 0.18), transparent 45%),
+        radial-gradient(circle at 86% 18%, rgba(18, 184, 134, 0.14), transparent 42%),
+        linear-gradient(180deg, #f9f7f3 0%, #eef3f7 48%, #f7f1e8 100%);
+      overflow-x: hidden;
+    }
+
+    :root[data-theme="dark"] body {
+      background:
+        radial-gradient(circle at 12% 12%, rgba(98, 165, 255, 0.18), transparent 45%),
+        radial-gradient(circle at 86% 18%, rgba(73, 215, 166, 0.12), transparent 42%),
+        radial-gradient(circle at 70% 88%, rgba(255, 188, 107, 0.12), transparent 34%),
+        linear-gradient(180deg, #08111a 0%, #0a1320 52%, #0d1722 100%);
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        repeating-linear-gradient(90deg, rgba(13, 23, 35, 0.04) 0 1px, transparent 1px 92px),
+        repeating-linear-gradient(0deg, rgba(13, 23, 35, 0.03) 0 1px, transparent 1px 92px);
+      opacity: 0.45;
+      z-index: -1;
+    }
+
+    :root[data-theme="dark"] body::after {
+      background:
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 92px),
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.02) 0 1px, transparent 1px 92px);
+      opacity: 0.28;
+    }
+
+    .bg-veil {
+      position: fixed;
+      inset: -20% -10%;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 18% 18%, rgba(28, 126, 214, 0.16), transparent 52%),
+        radial-gradient(circle at 82% 20%, rgba(18, 184, 134, 0.14), transparent 52%),
+        radial-gradient(circle at 64% 82%, rgba(245, 159, 69, 0.16), transparent 48%);
+      z-index: -2;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: #eef4f2;
+      border-bottom: 1px solid var(--line);
+    }
+
+    :root[data-theme="dark"] .topbar { background: #0a111b; }
+
+    .topbar-inner,
+    .app {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 22px;
+      padding: 16px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-copy {
+      min-width: 0;
+      display: grid;
+      gap: 2px;
+    }
+
+    .brand-mark {
+      width: 46px;
+      height: 46px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: #f9fbff;
+      letter-spacing: 0.8px;
+      background: linear-gradient(135deg, #0d141f, #1c3450 65%, #1c7ed6);
+      box-shadow: 0 14px 24px rgba(13, 23, 35, 0.24);
+      flex: 0 0 auto;
+    }
+
+    .brand-title {
+      font-family: var(--font-display);
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: var(--ink-soft);
+    }
+
+    .brand-sub {
+      color: var(--muted);
+      font-size: 0.84rem;
+      line-height: 1.45;
+    }
+
+    .brand-sub a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .brand-sub a:hover,
+    .brand-sub a:focus-visible { text-decoration: underline; }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      width: 100%;
+    }
+
+    .nav a,
+    .nav button,
+    .button {
+      border: 1px solid transparent;
+      border-radius: 999px;
+      padding: 9px 15px;
+      font: inherit;
+      font-size: 0.97rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color 0.12s ease, background 0.12s ease, color 0.12s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .ghost {
+      background: rgba(15, 26, 37, 0.06);
+      color: var(--ink);
+      border-color: var(--line);
+    }
+
+    :root[data-theme="dark"] .ghost { background: rgba(255, 255, 255, 0.05); }
+
+    .primary {
+      background: linear-gradient(135deg, #0d1b2a, #1c7ed6);
+      color: #f8fbff;
+      box-shadow: 0 14px 24px rgba(28, 126, 214, 0.24);
+    }
+
+    .secondary {
+      background: linear-gradient(135deg, rgba(18, 184, 134, 0.16), rgba(28, 126, 214, 0.12));
+      color: var(--ink);
+      border-color: rgba(18, 184, 134, 0.2);
+    }
+
+    .nav a:hover,
+    .nav button:hover,
+    .button:hover {
+      box-shadow: none;
+    }
+
+    .nav a:focus-visible,
+    .nav button:focus-visible,
+    .button:focus-visible,
+    .track-tab:focus-visible {
+      outline: 3px solid rgba(28, 126, 214, 0.34);
+      outline-offset: 2px;
+    }
+
+    .app {
+      padding: 34px 0 90px;
+      display: grid;
+      gap: 28px;
+    }
+
+    .section,
+    .hero {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+
+    .section.is-visible,
+    .hero.is-visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    .hero {
+      padding-top: 8px;
+    }
+
+    .hero-shell,
+    .glass-card,
+    .track-spotlight,
+    .cta-shell {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-soft);
+      border-radius: var(--radius-lg);
+    }
+
+    .hero-shell {
+      display: grid;
+      gap: 20px;
+      position: relative;
+      align-items: start;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 12% 18%, rgba(18, 184, 134, 0.14), transparent 28%),
+        radial-gradient(circle at 88% 12%, rgba(28, 126, 214, 0.16), transparent 32%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.94) 48%, rgba(220, 239, 255, 0.78));
+      box-shadow: var(--shadow);
+      border-radius: calc(var(--radius-lg) + 4px);
+      padding: 34px;
+    }
+
+    :root[data-theme="dark"] .hero-shell {
+      background:
+        radial-gradient(circle at 12% 18%, rgba(73, 215, 166, 0.14), transparent 28%),
+        radial-gradient(circle at 88% 12%, rgba(98, 165, 255, 0.18), transparent 32%),
+        linear-gradient(135deg, rgba(10, 18, 29, 0.96), rgba(14, 24, 37, 0.98) 48%, rgba(18, 32, 49, 0.94));
+    }
+
+    .hero-shell::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent-2), var(--accent));
+    }
+
+    .hero-main,
+    .hero-card,
+    .hero-proof-grid,
+    .metric-strip {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-main {
+      display: grid;
+      gap: 16px;
+      max-width: min(100%, 980px);
+    }
+
+    .eyebrow {
+      margin: 0;
+      font-size: 0.78rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent-2);
+      font-weight: 700;
+    }
+
+    h1, h2, h3, h4 {
+      margin: 0;
+      font-family: var(--font-display);
+      color: var(--ink-soft);
+    }
+
+    h1 {
+      font-size: clamp(1.5rem, 2.8vw, 3rem);
+      line-height: 1.50;
+      letter-spacing: -0.05em;
+      font-weight: 700;
+      text-wrap: balance;
+      max-width: 100ch;
+      margin-bottom: 0;
+    }
+
+    .hero-title-small {
+      font-size: clamp(0.75rem, 1.4vw, 1.5rem);
+      line-height: 1.8;
+      max-width: 34ch;
+    }
+
+    h2 {
+      font-size: clamp(1.55rem, 2vw, 2.2rem);
+      margin-bottom: 10px;
+    }
+
+    .lead {
+      margin: 0;
+      max-width: min(100%, 78ch);
+      color: var(--muted);
+      font-size: 1.02rem;
+      line-height: 1.62;
+    }
+
+    .hero-actions,
+    .chip-row,
+    .section-head,
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .hero-actions { margin-top: 2px; }
+    .chip-row { gap: 10px; }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(28, 126, 214, 0.12);
+      border: 1px solid rgba(28, 126, 214, 0.18);
+      color: var(--ink-soft);
+      font-size: 0.84rem;
+      font-weight: 600;
+    }
+
+    :root[data-theme="dark"] .chip {
+      background: rgba(98, 165, 255, 0.14);
+      border-color: rgba(98, 165, 255, 0.24);
+    }
+
+    .hero-card {
+      background: linear-gradient(180deg, rgba(241, 247, 252, 0.96), rgba(233, 241, 249, 0.98));
+      border: 1px solid rgba(13, 23, 35, 0.08);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-soft);
+      padding: 20px;
+      display: grid;
+      gap: 14px;
+      overflow: hidden;
+    }
+
+    :root[data-theme="dark"] .hero-card {
+      background: linear-gradient(180deg, #131d29 0%, #0d1520 100%);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .hero-list {
+      display: grid;
+      gap: 10px;
+      color: var(--muted);
+    }
+
+    .hero-item {
+      padding: 11px 14px;
+      border-radius: 12px;
+      background: rgba(28, 126, 214, 0.1);
+      border: 1px solid rgba(28, 126, 214, 0.14);
+      color: var(--ink-soft);
+      font-size: 0.95rem;
+      line-height: 1.45;
+    }
+
+    :root[data-theme="dark"] .hero-item {
+      background: rgba(98, 165, 255, 0.12);
+      border-color: rgba(98, 165, 255, 0.14);
+    }
+
+    .hero-mini-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: 10px;
+    }
+
+    .hero-card .metric {
+      padding: 14px 16px;
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    :root[data-theme="dark"] .hero-card .metric {
+      background: rgba(255, 255, 255, 0.03);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .hero-proof-grid {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .hero-proof-card,
+    .metric {
+      padding: 18px 18px 18px 20px;
+      border-radius: var(--radius);
+      background: var(--panel-soft);
+      border: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    .hero-proof-card {
+      position: relative;
+      display: grid;
+      gap: 10px;
+      min-height: 100%;
+    }
+
+    .hero-proof-card::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 16px;
+      bottom: 16px;
+      width: 4px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--accent-2), var(--accent));
+    }
+
+    .hero-proof-title {
+      font-size: 1.02rem;
+      color: var(--ink-soft);
+    }
+
+    .hero-proof-copy {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+      line-height: 1.5;
+    }
+
+    .metric {
+      display: grid;
+      align-content: start;
+      gap: 6px;
+      min-height: auto;
+      padding: 16px 18px;
+    }
+
+    .metric-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .metric-value {
+      font-family: var(--font-display);
+      font-size: clamp(1.34rem, 1.7vw, 1.88rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      font-variant-numeric: tabular-nums;
+      color: var(--ink-soft);
+      line-height: 0.96;
+    }
+
+    .metric-label {
+      margin-top: 0;
+      color: var(--muted);
+      font-size: 0.74rem;
+      line-height: 1.35;
+      text-transform: uppercase;
+      letter-spacing: 1.55px;
+    }
+
+    .divider {
+      height: 1px;
+      border: none;
+      margin: 0;
+      background: linear-gradient(90deg, rgba(13, 23, 35, 0), rgba(13, 23, 35, 0.12), rgba(13, 23, 35, 0));
+    }
+
+    :root[data-theme="dark"] .divider {
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0));
+    }
+
+    .section {
+      display: grid;
+      gap: 18px;
+    }
+
+    .hero-summary {
+      gap: 16px;
+    }
+
+    .section-head {
+      align-items: end;
+      justify-content: space-between;
+    }
+
+    .sublead {
+      margin: 0;
+      max-width: 68ch;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .track-shell {
+      display: grid;
+      gap: 18px;
+    }
+
+    .track-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .track-tab {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--panel);
+      padding: 14px 16px;
+      color: var(--ink);
+      display: grid;
+      gap: 4px;
+      cursor: pointer;
+      min-width: min(100%, 210px);
+      transition: border-color 0.12s ease, background 0.12s ease;
+    }
+
+    .track-tab:hover {
+      box-shadow: none;
+    }
+
+    .track-tab.active {
+      background:
+        radial-gradient(circle at top right, rgba(28, 126, 214, 0.15), transparent 50%),
+        var(--panel-soft);
+      border-color: rgba(28, 126, 214, 0.3);
+      box-shadow: none;
+    }
+
+    :root[data-theme="dark"] .track-tab.active { border-color: rgba(98, 165, 255, 0.32); }
+
+    .track-tab small {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .track-spotlight {
+      padding: 26px;
+      display: grid;
+      gap: 22px;
+    }
+
+    .spotlight-layout {
+      display: grid;
+      gap: 18px;
+    }
+
+    .spotlight-meta {
+      display: grid;
+      gap: 10px;
+      align-content: start;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(18, 184, 134, 0.12);
+      border: 1px solid rgba(18, 184, 134, 0.2);
+      color: var(--ink-soft);
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    :root[data-theme="dark"] .pill {
+      background: rgba(73, 215, 166, 0.14);
+      border-color: rgba(73, 215, 166, 0.22);
+    }
+
+    .spotlight-list,
+    .reason-list,
+    .coverage-list,
+    .roadmap-list {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      display: grid;
+      gap: 8px;
+    }
+
+    .spotlight-list strong,
+    .coverage-list strong,
+    .reason-list strong { color: var(--ink-soft); }
+
+    .code-card {
+      background: #0c1220;
+      color: #eef6ff;
+      border-radius: var(--radius);
+      padding: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      min-height: 100%;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+    }
+
+    .code-card pre {
+      margin: 0;
+    }
+
+    .proof-grid,
+    .coverage-grid,
+    .audience-grid,
+    .roadmap-grid,
+    .format-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .info-card,
+    .audience-card,
+    .roadmap-card,
+    .format-card {
+      padding: 22px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .info-card h3,
+    .audience-card h3,
+    .roadmap-card h3,
+    .format-card h3 { font-size: 1.18rem; }
+
+    .card-copy {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .tiny-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      color: var(--accent-2);
+      font-weight: 700;
+    }
+
+    .cta-shell {
+      padding: 30px;
+      display: grid;
+      gap: 18px;
+      background:
+        radial-gradient(circle at top right, rgba(28, 126, 214, 0.16), transparent 42%),
+        radial-gradient(circle at left bottom, rgba(18, 184, 134, 0.12), transparent 36%),
+        var(--panel);
+    }
+
+    .cta-shell p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 62ch;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+      align-items: start;
+    }
+
+    .contact-head {
+      display: grid;
+      gap: 10px;
+      justify-content: start;
+    }
+
+    .contact-head .sublead {
+      max-width: none;
+    }
+
+    .contact-card {
+      display: grid;
+      gap: 14px;
+      padding: 22px;
+      border-radius: var(--radius);
+      background: var(--panel-soft);
+      border: 1px solid var(--line);
+    }
+
+    .contact-intro {
+      max-width: none;
+    }
+
+    .contact-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      color: var(--muted);
+    }
+
+    .contact-label {
+      min-width: 88px;
+      font-size: 0.8rem;
+      letter-spacing: 1.25px;
+      text-transform: uppercase;
+      color: var(--accent-2);
+      font-weight: 700;
+    }
+
+    .contact-line a {
+      color: var(--ink-soft);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .contact-line a:hover,
+    .contact-line a:focus-visible { text-decoration: underline; }
+
+    .footer-links {
+      margin-top: 4px;
+    }
+
+    .footer-links a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .footer-links a:hover,
+    .footer-links a:focus-visible { text-decoration: underline; }
+
+    .coffee-line {
+      margin-top: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      text-align: center;
+    }
+
+    .coffee-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(18, 184, 134, 0.12);
+      border: 1px solid rgba(18, 184, 134, 0.18);
+      color: var(--ink-soft);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .coffee-link:hover,
+    .coffee-link:focus-visible {
+      text-decoration: none;
+      border-color: rgba(18, 184, 134, 0.35);
+    }
+
+    @media (min-width: 960px) {
+      .topbar-inner {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .nav {
+        width: auto;
+        justify-content: flex-end;
+        margin-left: auto;
+      }
+
+      .hero-shell {
+        grid-template-columns: minmax(0, 1.06fr) minmax(280px, 0.94fr);
+      }
+
+      .spotlight-layout {
+        grid-template-columns: minmax(0, 1.02fr) minmax(280px, 0.98fr);
+        align-items: start;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .hero-proof-grid,
+      .metric-strip,
+      .proof-grid,
+      .coverage-grid,
+      .audience-grid,
+      .roadmap-grid,
+      .format-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .topbar-inner,
+      .app {
+        width: min(1180px, calc(100% - 20px));
+      }
+
+      .topbar-inner {
+        gap: 14px;
+      }
+
+      .brand {
+        align-items: flex-start;
+      }
+
+      .brand-mark {
+        width: 42px;
+        height: 42px;
+        border-radius: 13px;
+      }
+
+      .brand-title {
+        font-size: 0.94rem;
+      }
+
+      .brand-sub {
+        font-size: 0.8rem;
+      }
+
+      .nav a,
+      .nav button,
+      .button {
+        font-size: 0.92rem;
+        padding: 9px 14px;
+      }
+
+      .nav {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        gap: 10px;
+      }
+
+      .nav a,
+      .nav button {
+        width: auto;
+      }
+
+      .hero-proof-grid,
+      .proof-grid,
+      .coverage-grid,
+      .audience-grid,
+      .roadmap-grid,
+      .format-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .metric-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .hero-shell,
+      .track-spotlight,
+      .cta-shell {
+        padding: 22px;
+      }
+
+      .section-head {
+        display: grid;
+        gap: 10px;
+        justify-content: start;
+      }
+
+      .track-tabs {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .track-tab {
+        width: 100%;
+      }
+
+      .track-tab {
+        min-width: 0;
+      }
+
+      .hero-actions {
+        gap: 10px;
+      }
+
+      .code-card {
+        padding: 16px;
+        font-size: 0.84rem;
+      }
+
+      .contact-line {
+        display: grid;
+        gap: 6px;
+      }
+
+      h1 {
+        max-width: 100%;
+        line-height: 1.15;
+      }
+
+      .hero-title-small {
+        font-size: clamp(0.75rem, 3.9vw, 1.05rem);
+      }
+    }
+
+    @media (max-width: 520px) {
+      .topbar {
+        position: static;
+      }
+
+      .hero-shell,
+      .track-spotlight,
+      .cta-shell,
+      .hero-card,
+      .hero-proof-card,
+      .metric,
+      .contact-card {
+        border-radius: 20px;
+      }
+
+      .metric-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .brand-copy,
+      .hero-main,
+      .spotlight-meta {
+        gap: 8px;
+      }
+
+      .hero-shell,
+      .track-spotlight,
+      .cta-shell {
+        padding: 18px;
+      }
+
+      .hero-card {
+        padding: 18px;
+      }
+
+      .eyebrow {
+        letter-spacing: 2.2px;
+      }
+
+      h1 {
+        font-size: clamp(1.5rem, 7.8vw, 2.1rem);
+      }
+
+      .lead,
+      .sublead,
+      .hero-proof-copy,
+      .card-copy,
+      .contact-intro {
+        font-size: 0.96rem;
+      }
+
+      .hero .hero-actions .button:last-child {
+        flex-basis: 100%;
+      }
+
+      .contact-label {
+        min-width: 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="bg-veil"></div>
+
   <header class="topbar">
-    <div class="brand">
-      <span class="brand-mark">HS</span>
-      <div>
-        <div class="brand-title">Playwright + TypeScript</div>
-        <div class="brand-sub">Developed by <a href="https://www.linkedin.com/in/hussain-s-i/" target="_blank" rel="noopener noreferrer">Hussain, SDET</a></div>
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-mark">HS</div>
+        <div class="brand-copy">
+          <div class="brand-title">Automation Learning Hub</div>
+          <div class="brand-sub">Developed by Hussain • <a href="https://www.linkedin.com/in/hussain-s-i/" target="_blank" rel="noopener noreferrer">LinkedIn</a></div>
+        </div>
       </div>
-    </div>
-    <div class="topbar-actions">
-      <button class="nav-btn ghost" type="button" data-nav="home">Topics</button>
-      <button class="nav-btn ghost" type="button" data-nav="theory">Details</button>
-      <button class="ghost" id="theme-toggle" type="button" aria-pressed="false">Dark mode</button>
+
+      <nav class="nav" aria-label="Primary">
+        <a class="ghost" href="#tracks">Sites</a>
+        <a class="ghost" href="#contact">Contact</a>
+        <button class="ghost" id="theme-toggle" type="button" aria-pressed="true">Light mode</button>
+      </nav>
     </div>
   </header>
 
   <main class="app">
-    <section id="home" class="view" data-view>
-      <div class="hero">
+    <section class="hero">
+      <article class="hero-shell">
         <div class="hero-main">
-          <p class="eyebrow">Playwright TS Theory</p>
-          <h1>Tap a topic, read the explanation, then scroll for sample code.</h1>
-          <p class="lead">Mobile-first, simple notes for quick learning and quick teaching.</p>
+          <p class="eyebrow">TypeScript • Playwright • Practice</p>
+          <h1 class="hero-title-small">Open one hub, then move from TypeScript foundations to Playwright learning and live automation practice.</h1>
+          <p class="lead">This portfolio brings together an <strong>18-module TypeScript reading path</strong>, a <strong>54-module Playwright roadmap</strong>, and a <strong>hands-on automation playground</strong> so learners can build basics first, move into automation concepts next, and practice from one mobile-friendly place.</p>
+
           <div class="hero-actions">
-            <button class="primary" id="cta-start" type="button" data-nav="theory">Start module 01</button>
-            <button class="ghost" type="button" data-nav="home">Browse topics</button>
+            <a class="button primary" href="#tracks">Explore learning sites</a>
+            <a class="button secondary" href="https://www.linkedin.com/in/hussain-s-i/" target="_blank" rel="noopener noreferrer">View LinkedIn</a>
+            <a class="button ghost" href="https://hussain-typescript.blogspot.com/" target="_blank" rel="noopener noreferrer">Start with TypeScript</a>
           </div>
-          <div class="hero-chips">
-            <span class="chip">Beginner friendly</span>
-            <span class="chip">Hands-on examples</span>
-            <span class="chip">Quick reference</span>
+
+          <div class="chip-row">
+            <span class="chip">18 TypeScript modules</span>
+            <span class="chip">54 Playwright modules</span>
+            <span class="chip">Live practice playground</span>
+            <span class="chip">Mobile-friendly learning</span>
           </div>
         </div>
-        <div class="hero-card">
+
+        <aside class="hero-card" aria-label="How to use this portfolio">
           <h2>How to use</h2>
           <div class="hero-list">
-            <div class="hero-item">Pick a topic from the list below.</div>
-            <div class="hero-item">Read the simple explanation points.</div>
-            <div class="hero-item">Scroll down to see the sample code.</div>
+            <div class="hero-item">Start with the TypeScript reading site to learn the coding basics.</div>
+            <div class="hero-item">Move to the Playwright roadmap to connect those basics to automation.</div>
+            <div class="hero-item">Open the practice playground to try the same ideas live.</div>
           </div>
-          <div class="hero-metrics">
-            <div class="metric">
-              <div class="metric-value" id="hero-modules">54</div>
-              <div class="metric-label">Modules</div>
+            <div class="hero-mini-metrics">
+              <div class="metric">
+                <div class="metric-value">18</div>
+                <div class="metric-label">TS Notes</div>
+              </div>
+              <div class="metric">
+                <div class="metric-value">54</div>
+                <div class="metric-label">PW Modules</div>
+              </div>
+              <div class="metric">
+                <div class="metric-value">1</div>
+              <div class="metric-label">Playground</div>
             </div>
-            <div class="metric">
-              <div class="metric-value">3</div>
-              <div class="metric-label">Steps</div>
-            </div>
-            <div class="metric">
-              <div class="metric-value">TS</div>
-              <div class="metric-label">Focus</div>
-            </div>
           </div>
-        </div>
-      </div>
-
-      <div class="topics-head">
-        <div class="topics-title">
-          <h2>UI Modules</h2>
-          <span class="pill" id="module-count">45 UI Modules</span>
-          <span class="pill pill-secondary" id="total-time-pill">Total ~0 min</span>
-        </div>
-        <p class="sublead">A guided path from setup to advanced Playwright UI patterns.</p>
-        <div class="progress-row" aria-live="polite">
-          <div class="progress-meta">
-            <div>Progress (UI + API)</div>
-            <div class="progress-count" id="progress-count">0/54</div>
-          </div>
-          <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="54" aria-valuenow="0">
-            <div class="progress-fill" id="progress-fill"></div>
-          </div>
-          <button class="ghost tiny" type="button" id="progress-reset">Reset progress</button>
-        </div>
-      </div>
-
-      <div class="topics" id="topic-grid"></div>
-
-      <hr class="section-divider" />
-
-      <div class="topics-head api-head">
-        <div class="topics-title">
-          <h2>API Modules</h2>
-          <span class="pill pill-api" id="api-module-count">9 API Modules</span>
-          <span class="pill pill-secondary" id="api-time-pill">Total ~0 min</span>
-        </div>
-        <p class="sublead">Playwright API testing with request context, using restful-api.dev.</p>
-      </div>
-
-      <div class="topics" id="api-topic-grid"></div>
+        </aside>
+      </article>
     </section>
-    <section id="theory" class="view" data-view hidden>
+
+    <section class="section hero-summary" aria-label="Portfolio highlights">
+      <div class="hero-proof-grid">
+          <article class="hero-proof-card">
+            <h3 class="hero-proof-title">Structured roadmap</h3>
+            <p class="hero-proof-copy">Start with TypeScript basics, then move into Playwright setup, locators, assertions, POM, retries, tracing, and API workflows.</p>
+          </article>
+          <article class="hero-proof-card">
+            <h3 class="hero-proof-title">Read + practice</h3>
+            <p class="hero-proof-copy">Concept pages are paired with live widgets, tables, frames, uploads, dialogs, delays, and shadow DOM for repeated hands-on use.</p>
+          </article>
+          <article class="hero-proof-card">
+            <h3 class="hero-proof-title">Clear concept flow</h3>
+            <p class="hero-proof-copy">The goal is simple: learn the language first, apply it in Playwright next, and reinforce it in the practice site.</p>
+          </article>
+      </div>
+
+      <div class="metric-strip">
+        <div class="metric">
+          <div class="metric-value" data-count="18">0</div>
+          <div class="metric-label">TS Modules</div>
+        </div>
+        <div class="metric">
+          <div class="metric-value" data-count="54">0</div>
+          <div class="metric-label">Playwright Modules</div>
+        </div>
+        <div class="metric">
+          <div class="metric-value" data-count="7">0</div>
+          <div class="metric-label">Practice Zones</div>
+        </div>
+        <div class="metric">
+          <div class="metric-value" data-count="3">0</div>
+          <div class="metric-label">Learning Sites</div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <section class="section" id="tracks">
       <div class="section-head">
         <div>
-          <p class="eyebrow">Topic detail</p>
-          <h2 id="topic-title">Introduction</h2>
-          <p class="sublead" id="topic-summary"></p>
+          <p class="eyebrow">Learning Sites &#x1F9ED;</p>
+          <h2>One portfolio, three focused learning resources.</h2>
         </div>
-        <button class="ghost" type="button" data-nav="home">Back to topics</button>
+        <p class="sublead">This page is built from the same three websites you already created: the TypeScript reading site, the Playwright theory site, and the automation practice playground. Switch tabs below to preview what each resource gives the learner.</p>
       </div>
 
-      <div class="detail-panel" aria-live="polite">
-        <div class="detail-header">
-          <div class="detail-step" id="detail-step">Module 01</div>
-          <div class="detail-owner" id="detail-owner"></div>
-          <div class="detail-meta" id="detail-meta"></div>
-        </div>
-        <div class="detail-progress">
-          <label class="checkline">
-            <input type="checkbox" id="topic-complete" />
-            <span>Mark as completed</span>
-          </label>
-          <div class="detail-hint">Saved on this device</div>
+      <div class="track-shell">
+        <div class="track-tabs" role="tablist" aria-label="Learning sites">
+          <button class="track-tab active" type="button" role="tab" aria-selected="true" data-track="typescript">&#x26A1; TypeScript Site</button>
+          <button class="track-tab" type="button" role="tab" aria-selected="false" data-track="playwright">&#x1F3AF; Playwright Site</button>
+          <button class="track-tab" type="button" role="tab" aria-selected="false" data-track="practice">&#x1F9EA; Practice Site</button>
         </div>
 
-        <div class="detail-section">
-          <h3>Simple explanation</h3>
-          <ul class="detail-list" id="detail-points"></ul>
-        </div>
+        <article class="track-spotlight">
+          <div class="spotlight-layout">
+            <div class="spotlight-meta">
+              <span class="pill" id="track-pill"></span>
+              <h3 id="track-title"></h3>
+              <p class="lead" id="track-summary"></p>
+              <ul class="spotlight-list" id="track-points"></ul>
+              <a class="button primary" id="track-link" href="#" target="_blank" rel="noopener noreferrer"></a>
+            </div>
 
-        <div class="detail-section">
-          <div class="code-head">
-            <h3>Sample code</h3>
-            <div>
-              <button class="ghost tiny code-copy" type="button" id="copy-code">Copy</button>
-              <button class="ghost tiny" type="button" id="toggle-code">Show more</button>
+            <div class="code-card">
+              <div class="tiny-label" id="track-proof"></div>
+              <pre><code id="track-code"></code></pre>
             </div>
           </div>
-          <div class="code-wrap">
-            <pre class="code-block" id="code-block"><code id="detail-code"></code></pre>
-            <div class="code-fade" id="code-fade"></div>
-          </div>
-        </div>
-
-        <div class="detail-section">
-          <h3>Interview Q&amp;A</h3>
-          <ul class="detail-list" id="detail-interview"></ul>
-        </div>
-
-        <div class="detail-section">
-          <h3>Tricky edge cases</h3>
-          <ul class="detail-list" id="detail-edges"></ul>
-        </div>
+        </article>
       </div>
+    </section>
+
+    <section class="section" id="contact">
+      <article class="cta-shell">
+        <div class="section-head contact-head">
+          <div>
+            <p class="eyebrow">Contact &#x1F4EC;</p>
+            <h2>Want to connect?</h2>
+          </div>
+          <p class="sublead">This page brings together your TypeScript, Playwright, and automation practice sites. If someone wants to connect, the details are below.</p>
+        </div>
+
+        <div class="contact-grid">
+          <section class="contact-card">
+            <p class="contact-intro">If this collection helps someone learn TypeScript, Playwright, or automation practice more easily, they can reach out here. &#x2728;</p>
+
+            <div class="contact-line">
+              <span class="contact-label">Phone</span>
+              <a href="https://wa.me/919019511565?text=Hi%20Hussain%2C%20I%20checked%20your%20learning%20resource%20hub%20and%20wanted%20to%20connect.">9019511565</a>
+            </div>
+
+            <div class="contact-line">
+              <span class="contact-label">Email</span>
+              <a href="mailto:hussain.psum@gmail.com">hussain.psum@gmail.com</a>
+            </div>
+
+            <div class="contact-line">
+              <span class="contact-label">LinkedIn</span>
+              <a href="https://www.linkedin.com/in/hussain-s-i/" target="_blank" rel="noopener noreferrer">hussain-s-i</a>
+            </div>
+
+            <div class="hero-actions">
+              <a class="button primary" href="https://wa.me/919019511565?text=Hi%20Hussain%2C%20I%20checked%20your%20learning%20resource%20hub%20and%20wanted%20to%20connect." target="_blank" rel="noopener noreferrer">WhatsApp Message &#x1F4F2;</a>
+              <a class="button secondary" href="mailto:hussain.psum@gmail.com">Send Email &#x2709;&#xFE0F;</a>
+              <a class="button ghost" href="https://www.linkedin.com/in/hussain-s-i/" target="_blank" rel="noopener noreferrer">Open LinkedIn &#x1F465;</a>
+            </div>
+          </section>
+        </div>
+
+        <div class="hero-actions">
+          <a class="button secondary" href="https://hussain-typescript.blogspot.com/" target="_blank" rel="noopener noreferrer">View TypeScript Site &#x26A1;</a>
+          <a class="button ghost" href="https://hussain-playwright.blogspot.com/#home" target="_blank" rel="noopener noreferrer">View Playwright Site &#x1F3AF;</a>
+          <a class="button ghost" href="https://hussain-automation-practice.blogspot.com/" target="_blank" rel="noopener noreferrer">View Practice Site &#x1F9EA;</a>
+        </div>
+
+        <div class="footer-links">
+          <a href="https://hussain-typescript.blogspot.com/" target="_blank" rel="noopener noreferrer">TypeScript</a>
+          &#8226;
+          <a href="https://hussain-playwright.blogspot.com/#home" target="_blank" rel="noopener noreferrer">Playwright</a>
+          &#8226;
+          <a href="https://hussain-automation-practice.blogspot.com/" target="_blank" rel="noopener noreferrer">Automation Practice</a>
+          &#8226;
+          <a href="https://www.linkedin.com/in/hussain-s-i/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </div>
+
+        <div class="coffee-line">
+          <span>Like this site?</span>
+          <a
+            class="coffee-link"
+            id="coffee-link"
+            href="upi://pay?pa=8147835054@upi&pn=Hussain%20SDET&tn=Coffee%20support&cu=INR"
+          >Coffee me</a>
+        </div>
+      </article>
     </section>
   </main>
 
   <script>
-const uiTopicTitles = [
-  "Introduction",
-  "Installation & Environment Setup",
-  "How to Create and Run Tests in Playwright VS Code Editor",
-  "Locating Web Elements - XPath & CSS",
-  "Locating Web Elements - Built-in locators in Playwright",
-      "Parameterized Test Generator (Generate Tests with Changes Tool)",
-      "Assertions in Playwright",
-      "Hard & Soft Assertions in Playwright",
-      "Handling Input Box & Radio Buttons",
-      "Handling Check Boxes",
-      "How to handle DropDown",
-      "How to handle multi select dropdown",
-      "How to handle Bootstrap Drop Down",
-      "How to handle Auto Suggestion Box",
-      "How to handle Hidden Items in Drop Down",
-      "How to handle Dialog/Alerts",
-      "How to handle multiple pages/windows",
-      "How to handle iframes",
-      "How to handle inner iframes",
-      "How to handle Web Tables",
-      "How to handle Date Pickers",
-      "Mouse Hover Action",
-      "Mouse Right Click/Context Click action",
-      "Mouse Double Click Action",
-      "Mouse Drag and Drop Action",
-      "Keyboard Actions",
-      "How to handle Upload Files",
-      "Grouping tests",
-      "Capture Screenshots",
-      "Recording Videos for tests",
-      "Trace Viewer",
-      "Tracing tests",
-      "Page Object Model",
-      "How to Handle Failed Test Cases - Retries and Failures",
-      "Handling Range Sliders",
-      "Handling Progress Bars",
-      "Handling Toast Notifications",
-      "Handling Broken Images",
-      "Handling Shadow DOM",
-      "Handling Infinite Scroll",
-      "Handling Delayed Elements",
-      "Handling Stale Elements",
-  "Handling Flaky Elements",
-  "Handling API Delays and Mocking",
-  "Sticky Header Tables"
-];
+    const themeToggle = document.getElementById("theme-toggle");
+    const trackTabs = [...document.querySelectorAll(".track-tab")];
+    const counterTargets = document.querySelectorAll("[data-count]");
+    const coffeeLink = document.getElementById("coffee-link");
+    const upiCoffeeLink = "upi://pay?pa=8147835054@upi&pn=Hussain%20SDET&tn=Coffee%20support&cu=INR";
+    const razorpayCoffeeLink = "https://rzp.io/rzp/your-link";
 
-const apiTopicTitles = [
-  "API Testing Basics with Playwright",
-  "GET: List Objects",
-  "GET: Object by ID",
-  "POST: Create Object",
-  "PUT: Replace Object",
-  "PATCH: Update Object Field",
-  "DELETE: Remove Object",
-  "Status & Headers Validation",
-  "Chaining Requests & Cleanup"
-];
-
-    const allowedViews = new Set(["home", "theory"]);
-
-    function slugify(text) {
-      return text
-        .toLowerCase()
-        .replace(/&/g, "and")
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/(^-|-$)/g, "");
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual";
     }
 
-    const makeContent = (points, code, interview = [], edges = []) => ({
-      points,
-      code,
-      interview,
-      edges
-    });
+    function resetInitialScroll() {
+      if (window.location.hash) {
+        const cleanUrl = window.location.pathname + window.location.search;
+        history.replaceState(null, "", cleanUrl);
+      }
 
-      const uiContentList = [
-      makeContent(["<strong>Playwright</strong> is an open source end-to-end testing framework for automating modern web applications across multiple browsers.","Developed by <strong>Microsoft</strong>, it focuses on fast, reliable, cross browser automation with strong built in debugging.","It lets testers and developers simulate real user interactions and verify application behavior accurately.","<strong>Main features:</strong>","<strong>Cross browser support:</strong> Works with Chromium, Firefox, and WebKit using a single API.","<strong>Auto waiting mechanism:</strong> Waits for elements to be ready, reducing flaky tests.","<strong>Powerful locator strategies:</strong> Supports role, text, CSS, XPath, and test id selectors.","<strong>Built in debugging tools:</strong> Trace viewer, screenshots, and video recording for failures.","<strong>Multiple browser context support:</strong> Parallel and isolated browser sessions.","<strong>API testing support:</strong> Run API tests alongside UI tests.","<strong>TypeScript first support:</strong> Native TypeScript with strong IntelliSense and developer experience."],`import { test, expect } from '@playwright/test';\n\ntest('home page loads', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n  await expect(page).toHaveTitle(/Playwright Practice/);\n  await expect(page.getByRole('heading', { name: /Practice every Playwright concept/i })).toBeVisible();\n});`),
-      makeContent(["Playwright can be set up quickly using a single command that creates the project structure, installs dependencies, and downloads supported browsers.","Run <strong>npm init playwright@latest</strong> to create a new Playwright project.","This command installs Playwright, sets up folders, and downloads required browsers.","Make sure Node.js is updated before installation to avoid version issues.","After installation, verify Playwright using: <strong>npx playwright --version</strong>","The <strong>playwright.config.ts</strong> file is the central place to control how tests run, including timeouts, retries, browser settings, and parallel execution.","Keeping Playwright and Node updated helps maintain stable and fast test execution."],`// terminal\nnpm init playwright@latest\n\n// playwright.config.ts\nimport { defineConfig } from '@playwright/test';\n\nexport default defineConfig({\n  testDir: './tests',\n  use: { headless: true }\n});`),
-      makeContent(["Playwright tests are written inside the <strong>tests</strong> folder using the <strong>.spec.ts</strong> naming convention. Each test should focus on one clear user scenario to keep tests readable and maintainable.","End to end flow:","Create a test file inside <strong>tests/</strong> with a name like <strong>login.spec.ts</strong>.","Write test cases using <strong>test()</strong> and validations using <strong>expect()</strong>.","Open <strong>VS Code</strong> and install the <strong>Playwright Test for VS Code</strong> extension for quick execution.","Run a single test directly from the <strong>VS Code Test Explorer</strong> or the <strong>Run</strong> button above the test.","Use <strong>npx playwright test</strong> to run all tests from the terminal.","Use <strong>npx playwright test --ui</strong> when you want interactive step by step debugging.","Review results in the <strong>HTML report</strong> after execution."],`import { test, expect } from '@playwright/test';\n\ntest('form submission flow', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  await page.getByLabel('Name').fill('Hussain');\n  await page.getByLabel('Email').fill('hussain@example.com');\n  await page.getByLabel('Password').fill('Secret123');\n\n  await page.getByLabel('Male').check();\n  await page.getByLabel('JavaScript').check();\n\n  await page.getByLabel('Country').selectOption({ label: 'India' });\n\n  await page.getByLabel('About you').fill('Playwright practice');\n\n  await page.getByRole('button', { name: 'Submit' }).click();\n  await expect(page.locator('#form-result')).toHaveText('Submitted successfully');\n});`),
-      makeContent(["This module focuses only on <strong>CSS</strong> and <strong>XPath</strong> locators.","Use <strong>CSS selectors</strong> when you can target by stable classes, ids, attributes, or hierarchy.","Use <strong>XPath</strong> when you need advanced path logic that CSS cannot express.","CSS basics:","Select by id or class: <strong>#login</strong>, <strong>.submit</strong>","Select by attribute: <strong>input[name=\"email\"]</strong>","Select by hierarchy: <strong>.card .title</strong>","XPath basics:","Select anywhere: <strong>//button</strong>","Select by text: <strong>//button[normalize-space()=\"Submit\"]</strong>","Select by attribute: <strong>//input[@name=\"email\"]</strong>","XPath axes (important):","<strong>parent::</strong> go to parent: <strong>//span[text()=\"Email\"]/parent::label</strong>","<strong>ancestor::</strong> go up the tree: <strong>//input[@id=\"email\"]/ancestor::form</strong>","<strong>following-sibling::</strong> next to an element: <strong>//label[text()=\"Email\"]/following-sibling::input</strong>","<strong>preceding-sibling::</strong> previous element: <strong>//input[@id=\"email\"]/preceding-sibling::label</strong>","<strong>descendant::</strong> any child below: <strong>//form[@id=\"signup\"]/descendant::button</strong>","Best practice: prefer CSS when possible; use XPath only when CSS is not enough."],`import { test, expect } from '@playwright/test';\n\ntest('css and xpath examples', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  // CSS locators\n  await page.locator('#email').fill('hussain@example.com');\n  await page.locator('input[name=\"email\"]').fill('hussain@example.com');\n  await page.locator('#submit-form').click();\n\n  // XPath locators\n  await page.locator('//label[normalize-space()=\"Email\"]/following-sibling::input').fill('hussain@example.com');\n  await page.locator('//button[@id=\"submit-form\"]').click();\n\n  // XPath axis example\n  const card = page.locator('//input[@id=\"email\"]/ancestor::div[contains(@class,\"form-card\")]');\n  await expect(card).toBeVisible();\n});`),
-      makeContent(["This module focuses on Playwright <strong>built in locators</strong> (user friendly selectors).","Built in locators auto wait, follow accessibility names, and stay stable across UI changes.","Common built in locators:","<strong>getByRole()</strong> – for buttons, links, headings, and form controls.","<strong>getByLabel()</strong> – for inputs connected to labels.","<strong>getByPlaceholder()</strong> – for placeholder based inputs.","<strong>getByText()</strong> – for visible text on the page.","<strong>getByAltText()</strong> – for images with alt text.","<strong>getByTitle()</strong> – for elements with title attributes.","<strong>getByTestId()</strong> – for data-testid or similar test ids.","When multiple elements match, refine the locator:","Use <strong>filter({ hasText: 'Text' })</strong> to keep only elements that contain text.","Use <strong>filter({ has: locator })</strong> to keep only elements that contain another locator.","Use <strong>first()</strong>, <strong>last()</strong>, or <strong>nth(index)</strong> to pick a specific match.","You can also chain locators to scope inside a parent container for fewer matches."],`import { test, expect } from '@playwright/test';\n\ntest('built in locator examples', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  // Basic built-in locators\n  await page.getByLabel('Email').fill('hussain@example.com');\n  await page.getByRole('button', { name: 'Submit' }).click();\n\n  // Filter by text\n  const paidRow = page.locator('#static-table tbody tr').filter({ hasText: 'Paid' }).first();\n  await expect(paidRow).toBeVisible();\n\n  // Filter by nested locator\n  const overdueRow = page.locator('#checkbox-table tbody tr').filter({ has: page.locator('text=Overdue') });\n  await expect(overdueRow).toBeVisible();\n\n  // Pick a specific match\n  const actions = page.locator('#forms button');\n  await expect(actions.nth(0)).toHaveText('Submit');\n});`),
-      makeContent(["This module explains Playwright <strong>Codegen</strong> and the <strong>Playwright VS Code Extension</strong> for generating tests quickly.","<strong>Codegen</strong> opens a real browser, records your actions, and outputs Playwright test code in real time.","Use <strong>npx playwright codegen</strong> to start recording and copy the generated code into your test file.","You can also launch Codegen for a URL: <strong>npx playwright codegen https://hussain-automation-practice.blogspot.com/#advanced</strong>.","The <strong>Playwright VS Code Extension</strong> lets you record tests, run them, and debug directly inside VS Code.","In VS Code, open the Playwright sidebar and click <strong>Record new</strong> to generate steps.","Use the <strong>Run</strong> and <strong>Debug</strong> buttons to execute a single test fast.","Best practice: use generated code as a starting point, then clean up locators and add proper assertions."],`// terminal\nnpx playwright codegen https://hussain-automation-practice.blogspot.com/#advanced\n\n// example generated test (simplified)\nimport { test, expect } from '@playwright/test';\n\ntest('generated flow', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n  await page.getByLabel('Name').fill('Hussain');\n  await page.getByRole('button', { name: 'Submit' }).click();\n  await expect(page.locator('#form-result')).toHaveText('Submitted successfully');\n});`),
-      makeContent(["Assertions verify the app state after an action so tests fail for the right reason.","Use <strong>expect(locator)</strong> for UI checks. These are <strong>web-first</strong> and auto-wait until the condition is true or the timeout is reached.","Use <strong>expect(value)</strong> for plain values (numbers, strings, JSON). This does not auto-wait unless you wrap it in <strong>expect.poll()</strong>.","Common UI checks: <strong>toBeVisible</strong>, <strong>toBeHidden</strong>, <strong>toHaveText</strong>, <strong>toContainText</strong>, <strong>toHaveValue</strong>, <strong>toBeChecked</strong>, <strong>toBeEnabled</strong>/<strong>toBeDisabled</strong>, <strong>toHaveAttribute</strong>, <strong>toHaveClass</strong>.","Page-level checks: <strong>toHaveURL</strong> and <strong>toHaveTitle</strong>.","List/count checks: <strong>toHaveCount</strong> and <strong>toHaveText</strong> with arrays for multiple elements.","Use <strong>.not</strong> for negative assertions when something must not be present.","Override timeouts per check when needed: <strong>expect(locator).toBeVisible({ timeout: 10000 })</strong>.","By default assertions are <strong>hard</strong> (test stops on failure). Soft assertions are covered in the next module.","Best practice: assert immediately after the action that changes the UI; avoid fixed waits."],`import { test, expect } from '@playwright/test';\n\ntest('assertions basics', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n  await expect(page).toHaveTitle(/Playwright Practice/);\n\n  const name = page.getByLabel('Name');\n  await name.fill('Hussain');\n  await expect(name).toHaveValue('Hussain');\n\n  await expect(page.getByRole('button', { name: /submit/i })).toBeEnabled();\n  await expect(page.locator('#form-result')).toHaveText('Awaiting submission...');\n\n  await page.getByRole('button', { name: 'Submit' }).click();\n  await expect(page.locator('#form-result')).toHaveText('Submitted successfully');\n\n  await expect.poll(async () => page.title()).toMatch(/Playwright Practice/);\n});`),
-      makeContent(["A <strong>hard assertion</strong> (default <strong>expect</strong>) stops the test immediately when it fails.","A <strong>soft assertion</strong> (<strong>expect.soft</strong>) records the failure and lets the test continue.","The test still fails at the end if any soft assertion failed, but you get all failures in one run.","Use <strong>hard</strong> assertions for critical steps (login success, page loaded, required element visible).","Use <strong>soft</strong> assertions for multiple UI checks on the same screen (labels, values, badges).","Soft assertions are still <strong>web-first</strong> and auto-wait just like normal expect.","You can use <strong>.not</strong> and custom timeouts with soft assertions too.","Best practice: mix them—hard for flow, soft for extra verification."],`import { test, expect } from '@playwright/test';\n\ntest('profile checks', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  // Hard assertion for the main flow\n  await expect(page.getByRole('heading', { name: 'Form Controls' })).toBeVisible();\n\n  // Soft assertions to collect multiple UI issues\n  await expect.soft(page.getByLabel('Name')).toBeVisible();\n  await expect.soft(page.getByLabel('Email')).toBeVisible();\n  await expect.soft(page.getByLabel('Country')).toBeVisible();\n  await expect.soft(page.getByText('Awaiting submission...')).toBeVisible();\n\n  // Final hard check for a critical action\n  await expect(page.getByRole('button', { name: 'Submit' })).toBeEnabled();\n});`),
-      makeContent(["Input boxes accept user text. Use <strong>fill()</strong> to replace the whole value, or <strong>type()</strong> to append keystrokes.","Use <strong>getByLabel()</strong>, <strong>getByPlaceholder()</strong>, or <strong>getByRole('textbox')</strong> for stable, user-facing locators.","Clear an input by <strong>fill('')</strong> or select all + Backspace.","Validate with <strong>toHaveValue()</strong> or read the value with <strong>inputValue()</strong>.","Radio buttons are <strong>single-choice</strong> within a group. Only one can be checked at a time.","Use <strong>check()</strong> (or <strong>setChecked(true)</strong>) to select a radio. Use <strong>toBeChecked()</strong> to verify.","If a radio is disabled or hidden, the action will fail; fix the UI or locator rather than forcing.","Best practice: assert right after you change the field."],`import { test, expect } from '@playwright/test';\n\ntest('input box and radio buttons', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  const name = page.getByLabel('Name');\n  await name.fill('Ava James');\n  await expect(name).toHaveValue('Ava James');\n\n  // Replace the value\n  await name.fill('Ava J');\n  await expect(name).toHaveValue('Ava J');\n\n  // Clear the field\n  await name.fill('');\n  await expect(name).toHaveValue('');\n\n  // Radio buttons\n  const female = page.getByLabel('Female');\n  await female.check();\n  await expect(female).toBeChecked();\n\n  const male = page.getByLabel('Male');\n  await expect(male).not.toBeChecked();\n});`),
-      makeContent(["Checkboxes allow <strong>multiple selections</strong> in the same group (unlike radio buttons).","Use <strong>check()</strong> or <strong>setChecked(true)</strong> to select and <strong>uncheck()</strong> or <strong>setChecked(false)</strong> to clear.","Prefer <strong>setChecked(true/false)</strong> when you want a specific final state.","Locate checkboxes by label with <strong>getByLabel()</strong> or by role with <strong>getByRole('checkbox')</strong>.","Verify state with <strong>toBeChecked()</strong> or <strong>not.toBeChecked()</strong>.","Disabled checkboxes cannot be toggled; fix the UI or locator rather than forcing clicks.","Best practice: assert after each important change, especially when multiple boxes are involved."],`import { test, expect } from '@playwright/test';\n\ntest('checkbox handling', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  const js = page.getByLabel('JavaScript');\n  const ts = page.getByLabel('TypeScript');\n  const pw = page.getByLabel('Playwright');\n\n  await js.check();\n  await ts.check();\n  await expect(js).toBeChecked();\n  await expect(ts).toBeChecked();\n\n  await pw.setChecked(true);\n  await expect(pw).toBeChecked();\n\n  await ts.uncheck();\n  await expect(ts).not.toBeChecked();\n});`),
-      makeContent(["This module is for <strong>native HTML select</strong> dropdowns (<strong>&lt;select&gt;</strong>).","Use <strong>selectOption()</strong> to choose by <strong>value</strong>, <strong>label</strong>, or <strong>index</strong>.","Locate the dropdown with <strong>getByLabel()</strong> or <strong>getByRole('combobox')</strong> for stable selectors.","You can wait for options to exist by asserting count or by waiting for the select to be visible.","Verify selection with <strong>toHaveValue()</strong> or <strong>toHaveText()</strong> on the selected option.","To clear a selection, pass an empty array (works for some selects) or select the default option.","If the dropdown is <strong>custom</strong> (not a real select), handle it like a button + list (covered in later modules)."],`import { test, expect } from '@playwright/test';\n\ntest('native dropdown handling', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  const country = page.getByLabel('Country');\n  await expect(country).toBeVisible();\n\n  // Select by value\n  await country.selectOption('USA');\n  await expect(country).toHaveValue('USA');\n\n  // Select by label\n  await country.selectOption({ label: 'India' });\n  await expect(country).toHaveValue('India');\n\n  // Select by index\n  await country.selectOption({ index: 2 });\n\n  // Check the selected option text\n  const selectedText = await country.evaluate((el) => el.options[el.selectedIndex].textContent);\n  expect(selectedText).toBeTruthy();\n});`),
-      
-      makeContent(["Multi-select dropdowns let users pick more than one option in a native <strong>&lt;select multiple&gt;</strong>.","Use <strong>selectOption()</strong> with an array of values/labels to select several at once.","You can mix <strong>value</strong>, <strong>label</strong>, or <strong>index</strong> in the array.","Verify with <strong>toHaveValues()</strong> or read selected options.","Clear all selections with <strong>selectOption([])</strong> or select a default option.","Use <strong>getByLabel()</strong> for stable locators.","Best practice: assert the final selection after updates."],`import { test, expect } from '@playwright/test';\n\ntest('multi-select dropdown', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  const skills = page.getByLabel('Skills (multi-select)');\n  await skills.selectOption(['js', 'pw']);\n  await expect(skills).toHaveValues(['js', 'pw']);\n\n  await skills.selectOption(['ts', 'api']);\n  await expect(skills).toHaveValues(['ts', 'api']);\n\n  await skills.selectOption([]);\n  await expect(skills).toHaveValues([]);\n});`),
-      makeContent(["Custom/Bootstrap dropdowns are not <strong>&lt;select&gt;</strong> elements; they are buttons and menus.","Open the menu by clicking the toggle button.","Pick an option by visible text or role.","Wait for the menu to be visible before clicking.","Assert the toggle text after selection.","Do not use <strong>selectOption()</strong> on custom dropdowns."],`import { test, expect } from '@playwright/test';\n\ntest('custom dropdown', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  const toggle = page.getByRole('button', { name: 'Select role' });\n  await toggle.click();\n\n  await page.getByRole('option', { name: 'Admin' }).click();\n  await expect(toggle).toHaveText('Admin');\n});`),
-      makeContent(["Auto-suggestion inputs show a list based on what you type.","Type partial text to trigger suggestions.","Wait for the suggestion box to appear.","Click the required suggestion item.","Assert the input value after selection.","Avoid fixed waits; use visibility checks."],`import { test, expect } from '@playwright/test';\n\ntest('auto-suggestion box', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  const input = page.getByLabel('Auto-suggestion');\n  await input.fill('Ind');\n\n  const list = page.locator('#suggestions');\n  await expect(list).toBeVisible();\n\n  await list.getByText('India').click();\n  await expect(input).toHaveValue('India');\n});`),
-      makeContent(["Some dropdown menus are scrollable and items can be hidden.","Open the menu and locate the item.","Use <strong>scrollIntoViewIfNeeded()</strong> to reveal hidden options.","Click the option once visible.","Assert the selected value on the toggle.","Avoid <strong>force</strong> clicks when scrolling is possible."],`import { test, expect } from '@playwright/test';\n\ntest('hidden items in dropdown', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  const toggle = page.getByRole('button', { name: 'Select item' });\n  await toggle.click();\n\n  const option = page.getByRole('option', { name: 'Option 12' });\n  await option.scrollIntoViewIfNeeded();\n  await option.click();\n\n  await expect(toggle).toHaveText('Option 12');\n});`),
-      makeContent(["Playwright can handle <strong>alert</strong>, <strong>confirm</strong>, and <strong>prompt</strong> dialogs.","Register the dialog handler <strong>before</strong> clicking the button.","Use <strong>dialog.type()</strong> and <strong>dialog.message()</strong> to validate.","Use <strong>dialog.accept()</strong> or <strong>dialog.dismiss()</strong>; pass text for prompts.","Assert the page result after the dialog is handled."],`import { test, expect } from '@playwright/test';\n\ntest('dialog handling', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  page.once('dialog', async (dialog) => {\n    expect(dialog.type()).toBe('alert');\n    expect(dialog.message()).toContain('simple alert');\n    await dialog.accept();\n  });\n  await page.getByRole('button', { name: 'Simple alert' }).click();\n\n  page.once('dialog', async (dialog) => {\n    expect(dialog.type()).toBe('confirm');\n    await dialog.dismiss();\n  });\n  await page.getByRole('button', { name: 'Confirm alert' }).click();\n  await expect(page.locator('#alert-result')).toHaveText('Confirm: Cancel');\n\n  page.once('dialog', async (dialog) => {\n    expect(dialog.type()).toBe('prompt');\n    await dialog.accept('Hussain');\n  });\n  await page.getByRole('button', { name: 'Prompt alert' }).click();\n  await expect(page.locator('#alert-result')).toHaveText('Prompt: Hussain');\n});`),
-      makeContent(["Links can open in the same tab or a new tab/window.","Use <strong>page.waitForEvent('popup')</strong> or <strong>context.waitForEvent('page')</strong> for new pages.","Wrap click + wait in <strong>Promise.all()</strong> to avoid missing the popup.","Switch to the new page and <strong>waitForLoadState()</strong>.","Assert URL or title on the new page.","Same-tab navigation can be checked with <strong>toHaveURL()</strong>."],`import { test, expect } from '@playwright/test';\n\ntest('multiple pages and windows', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  await page.getByRole('button', { name: 'Open same tab' }).click();\n  await expect(page).toHaveURL(/hussain-playwright/);\n  await page.goBack();\n\n  const [tab] = await Promise.all([\n    page.waitForEvent('popup'),\n    page.click('#new-tab')\n  ]);\n  await tab.waitForLoadState();\n  await expect(tab).toHaveURL(/hussain-playwright/);\n\n  const [win] = await Promise.all([\n    page.waitForEvent('popup'),\n    page.click('#new-window')\n  ]);\n  await win.waitForLoadState();\n  await expect(win).toHaveURL(/hussain-playwright/);\n});`),
-      makeContent(["Iframes isolate DOM; you must target inside the frame.","Use <strong>frameLocator()</strong> to scope actions to the iframe.","Locators inside the frame work the same as normal.","Assert inside-frame text to confirm the action."],`import { test, expect } from '@playwright/test';\n\ntest('iframe handling', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  const frame = page.frameLocator('#demo-frame');\n  await frame.getByRole('button', { name: 'Frame Button' }).click();\n  await expect(frame.locator('#frame-text')).toHaveText('Iframe action triggered');\n});`),
-      makeContent(["Nested iframes require chaining <strong>frameLocator()</strong>.","First target the outer frame, then the inner frame.","Perform actions inside the inner frame.","Assert the inner frame content to verify success."],`import { test, expect } from '@playwright/test';\n\ntest('inner iframe handling', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  const inner = page.frameLocator('#demo-frame').frameLocator('#inner-frame');\n  await inner.getByRole('button', { name: 'Inner Button' }).click();\n  await expect(inner.locator('#inner-text')).toHaveText('Inner action triggered');\n});`),
-      makeContent(["Tables contain rows and cells; locate the row by unique text.","Use <strong>tr</strong> with <strong>hasText</strong> or accessible roles when available.","Read or assert a specific cell inside that row.","For checkbox tables, find the row then check the input.","For pagination tables, click Next/Prev and assert the page info.","Avoid hard-coded row indexes when data can change."],`import { test, expect } from '@playwright/test';\n\ntest('web tables', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  const staticRow = page.locator('#static-table tbody tr', { hasText: '#1002' });\n  await expect(staticRow.getByText('Pending')).toBeVisible();\n\n  const invoiceRow = page.locator('#checkbox-table tbody tr', { hasText: 'INV-203' });\n  const checkbox = invoiceRow.locator('input[type="checkbox"]');\n  await checkbox.check();\n  await expect(checkbox).toBeChecked();\n\n  await page.click('#next-page');\n  await expect(page.locator('#page-info')).toHaveText('Page 2');\n  await expect(page.locator('#page-table tbody tr')).toHaveCount(3);\n});`),
-      makeContent(["Date pickers can be custom UI or simple text inputs.","Open the picker, choose a day, and assert the input value.","Format matters (MM/DD/YYYY vs DD/MM/YYYY).","Use the quick <strong>Pick today</strong> button if available.","Avoid fixed waits; rely on visibility or value checks."],`import { test, expect } from '@playwright/test';\n\ntest('date pickers', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  await page.getByRole('button', { name: 'Pick today' }).click();\n  await expect(page.locator('#date-text-us')).toHaveValue(/\\d{2}\\/\\d{2}\\/\\d{4}/);\n\n  await page.locator('#date-open-eu').click();\n  await page.locator('#ui-datepicker-eu [data-day="15"]').click();\n  await expect(page.locator('#date-text-eu')).toHaveValue(/\\d{2}\\/15\\/\\d{4}/);\n});`),
-      makeContent(["Hover actions reveal hidden UI like tooltips or menus.","Use <strong>hover()</strong> on the target element.","Assert the tooltip or menu becomes visible.","Optionally move away and assert it hides again."],`import { test, expect } from '@playwright/test';\n\ntest('mouse hover', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  await page.getByRole('button', { name: 'Hover me' }).hover();\n  await expect(page.getByText('Tooltip visible')).toBeVisible();\n});`),
-      makeContent(["Context click uses the right mouse button.","Use <strong>click({ button: 'right' })</strong> on the target.","Assert the UI changes after the context action."],`import { test, expect } from '@playwright/test';\n\ntest('right click', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  await page.locator('#context-area').click({ button: 'right' });\n  await expect(page.locator('#context-result')).toHaveText('Right click captured');\n});`),
-      makeContent(["Double click triggers <strong>dblclick</strong> handlers.","Use <strong>dblclick()</strong> on the target element.","Assert the result text after the action."],`import { test, expect } from '@playwright/test';\n\ntest('double click', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  await page.dblclick('#double-click');\n  await expect(page.locator('#double-result')).toHaveText('Double click captured');\n});`),
-      makeContent(["Drag and drop moves a source element onto a target.","Use <strong>dragTo()</strong> or <strong>page.dragAndDrop()</strong>.","Assert the drop target updates after the action."],`import { test, expect } from '@playwright/test';\n\ntest('drag and drop', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  await page.dragAndDrop('#drag-item', '#drop-zone');\n  await expect(page.locator('#drop-zone')).toHaveText('Dropped');\n});`),
-      makeContent(["Keyboard actions simulate user typing and shortcuts.","Focus the input first to send keys to it.","Use <strong>keyboard.type()</strong> for text and <strong>keyboard.press()</strong> for keys like Tab/Enter.","Assert the field values after typing."],`import { test, expect } from '@playwright/test';\n\ntest('keyboard actions', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  const name = page.getByLabel('Name');\n  await name.click();\n  await page.keyboard.type('Ava');\n  await page.keyboard.press('Tab');\n  await page.keyboard.type('ava@example.com');\n\n  await expect(name).toHaveValue('Ava');\n  await expect(page.getByLabel('Email')).toHaveValue('ava@example.com');\n});`),
-      makeContent(["Use <strong>setInputFiles()</strong> on <strong>&lt;input type=&quot;file&quot;&gt;</strong> elements.","Pass a single file path or an array for multiple uploads.","Clear the selection with <strong>setInputFiles([])</strong> when needed.","Assert the input value shows the selected file name."],`import { test, expect } from '@playwright/test';\n\ntest('file upload', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  const single = page.locator('#upload-single');\n  await single.setInputFiles('tests/fixtures/sample.pdf');\n  await expect(single).toHaveValue(/sample.pdf/);\n\n  const multi = page.locator('#upload-multi');\n  await multi.setInputFiles(['tests/fixtures/a.txt', 'tests/fixtures/b.txt']);\n  await expect(multi).toHaveValue(/a.txt/);\n});`),
-      makeContent(["Use <strong>test.describe()</strong> to group related tests.","Share setup with <strong>beforeEach()</strong> for common steps like navigation.","Keep each test focused on one scenario.","Grouping improves reports and readability."],`import { test, expect } from '@playwright/test';\n\nconst url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n\ntest.describe('form controls', () => {\n  test.beforeEach(async ({ page }) => {\n    await page.goto(url);\n  });\n\n  test('submits the form', async ({ page }) => {\n    await page.getByLabel('Name').fill('Hussain');\n    await page.getByRole('button', { name: 'Submit' }).click();\n    await expect(page.locator('#form-result')).toHaveText('Submitted successfully');\n  });\n\n  test('resets the form', async ({ page }) => {\n    await page.getByLabel('Email').fill('h@example.com');\n    await page.getByRole('button', { name: 'Reset' }).click();\n    await expect(page.locator('#form-result')).toHaveText('Reset complete');\n  });\n});`),
-      makeContent(["Use <strong>page.screenshot()</strong> for full page or viewport captures.","Use <strong>locator.screenshot()</strong> for a specific element.","Store files with clear names for quick review.","Screenshots are useful when debugging failures."],`import { test } from '@playwright/test';\n\ntest('screenshots', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  await page.screenshot({ path: 'screens/full-page.png', fullPage: true });\n  await page.locator('#static-table').screenshot({ path: 'screens/static-table.png' });\n});`),
-      makeContent(["Enable video recording in the Playwright config file.","Use <strong>retain-on-failure</strong> to save only failed runs.","Videos are stored in the test output folder.","Combine video with strong assertions for debugging."],`// playwright.config.ts\nimport { defineConfig } from '@playwright/test';\n\nexport default defineConfig({\n  use: { video: 'retain-on-failure' }\n});\n\n// sample test\nimport { test, expect } from '@playwright/test';\n\ntest('video example', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n  await page.getByLabel('Name').fill('Ava');\n  await expect(page.locator('#form-result')).toHaveText('Awaiting submission...');\n});`),
-      makeContent(["Tracing records DOM snapshots, network, and actions.","Enable tracing in config (for example <strong>on-first-retry</strong>).","Run your test and open the trace zip with the Trace Viewer.","Traces help debug timing and locator issues."],`// playwright.config.ts\nimport { defineConfig } from '@playwright/test';\n\nexport default defineConfig({\n  use: { trace: 'on-first-retry' }\n});\n\n// sample test\nimport { test, expect } from '@playwright/test';\n\ntest('trace example', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n  await page.getByRole('button', { name: 'Submit' }).click();\n  await expect(page.locator('#form-result')).toHaveText('Submitted successfully');\n});\n\n// terminal\nnpx playwright show-trace trace.zip`),
-      makeContent(["You can start and stop tracing inside a single test.","Useful when you want traces only for a specific scenario.","Start tracing before the actions and stop it after.","Store the trace zip to inspect later."],`import { test, expect } from '@playwright/test';\n\ntest('manual tracing', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.context().tracing.start({ screenshots: true, snapshots: true });\n\n  await page.goto(url);\n  await page.getByRole('button', { name: 'Show toast' }).click();\n  await expect(page.locator('#toast')).toHaveClass(/show/);\n\n  await page.context().tracing.stop({ path: 'trace.zip' });\n});`),
-      makeContent(["Page Object Model wraps UI actions into reusable methods.","Keep locators in the page class and expose clear actions.","Tests stay short because the details move into the class.","Use the same locators from the real page."],`import { test, expect } from '@playwright/test';\n\nconst url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n\nclass FormPage {\n  constructor(page) {\n    this.page = page;\n    this.name = page.getByLabel('Name');\n    this.email = page.getByLabel('Email');\n    this.submit = page.getByRole('button', { name: 'Submit' });\n    this.result = page.locator('#form-result');\n  }\n\n  async goto() {\n    await this.page.goto(url);\n  }\n\n  async fill(name, email) {\n    await this.name.fill(name);\n    await this.email.fill(email);\n  }\n\n  async submitForm() {\n    await this.submit.click();\n  }\n}\n\ntest('submit with page object', async ({ page }) => {\n  const form = new FormPage(page);\n  await form.goto();\n  await form.fill('Ava', 'ava@example.com');\n  await form.submitForm();\n  await expect(form.result).toHaveText('Submitted successfully');\n});`),
-      makeContent(["Retries re-run failed tests automatically to reduce flakiness noise.","Set <strong>retries</strong> in the Playwright config file.","Combine retries with <strong>trace</strong>, <strong>screenshot</strong>, and <strong>video</strong> on failure.","Use retries temporarily while you fix the root cause."],`// playwright.config.ts\nimport { defineConfig } from '@playwright/test';\n\nexport default defineConfig({\n  retries: 2,\n  use: { trace: 'on-first-retry', screenshot: 'only-on-failure', video: 'retain-on-failure' }\n});\n\n// sample test\nimport { test, expect } from '@playwright/test';\n\ntest('submit form', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n  await page.getByRole('button', { name: 'Submit' }).click();\n  await expect(page.locator('#form-result')).toHaveText('Submitted successfully');\n});`),
-      makeContent(["Range sliders are <strong>&lt;input type=\"range\"&gt;</strong> elements that update a numeric value.","Set the value directly and dispatch an <strong>input</strong> event so the UI updates.","Verify both the slider value and any visible output bound to it.","Avoid drag actions unless you need to test mouse behavior specifically."],`import { test, expect } from '@playwright/test';\n\ntest('range slider', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  const slider = page.locator('#range');\n  await slider.evaluate((el) => {\n    el.value = '70';\n    el.dispatchEvent(new Event('input', { bubbles: true }));\n  });\n\n  await expect(slider).toHaveValue('70');\n  await expect(page.locator('#range-value')).toHaveText(/70/);\n});`),
-      makeContent(["Progress bars reflect async work and often update via width or aria attributes.","Trigger the action that updates the progress bar.","Assert the progress value or width reaches the expected state.","Prefer state-based checks over fixed waits."],`import { test, expect } from '@playwright/test';\n\ntest('progress bar', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  await page.getByRole('button', { name: 'Auto progress' }).click();\n  const bar = page.locator('#progress-bar');\n  await expect(bar).toHaveCSS('width', '100%');\n});`),
-      makeContent(["Toast notifications appear briefly and then disappear.","Click the action that triggers the toast.","Assert it becomes visible and then hides again.","Use class or visibility checks instead of fixed waits."],`import { test, expect } from '@playwright/test';\n\ntest('toast notification', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  await page.getByRole('button', { name: 'Show toast' }).click();\n  const toast = page.locator('#toast');\n  await expect(toast).toHaveClass(/show/);\n  await expect(toast).not.toHaveClass(/show/);\n});`),
-      makeContent(["Broken images load but have <strong>naturalWidth</strong> of 0.","Select the image and verify its naturalWidth or naturalHeight.","This is useful for detecting missing assets or incorrect URLs.","Combine with network checks when you need root-cause details."],`import { test, expect } from '@playwright/test';\n\ntest('broken image', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  const img = page.locator('#broken-img');\n  await expect(img).toHaveJSProperty('naturalWidth', 0);\n});`),
-      makeContent(["Playwright can pierce <strong>open shadow DOM</strong> with normal locators.","Target the shadow host, then locate elements inside it.","Assert the text or state after interaction.","If the shadow root is closed, work with the component API instead."],`import { test, expect } from '@playwright/test';\n\ntest('shadow DOM', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  const host = page.locator('#shadow-host');\n  await host.locator('button').click();\n  await expect(host.locator('#shadow-msg')).toHaveText('Shadow DOM action triggered');\n});`),
-      makeContent(["Infinite scroll loads more items when the container reaches the bottom.","Scroll the container and wait for item count to increase.","Assert new items are appended instead of replacing existing ones.","Prefer container scrolling over window scrolling when possible."],`import { test, expect } from '@playwright/test';\n\ntest('infinite scroll', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  const box = page.locator('#scroll-box');\n  const initial = await box.locator('div').count();\n  await box.evaluate((el) => { el.scrollTop = el.scrollHeight; });\n  await expect(box.locator('div')).toHaveCount(initial + 5);\n});`),
-      makeContent(["Delayed elements appear after a timeout or async operation.","Trigger the action and wait for the element to become visible.","Use expectations with timeouts instead of fixed waits.","Confirm the element is visible or enabled before interacting."],`import { test, expect } from '@playwright/test';\n\ntest('delayed element', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  await page.getByRole('button', { name: 'Show after 3s' }).click();\n  await expect(page.locator('#delayed')).toBeVisible();\n});`),
-      makeContent(["Stale element issues happen when the DOM updates and old references detach.","Use <strong>locator</strong> instead of <strong>ElementHandle</strong> so Playwright re-queries automatically.","After a replacement, locate the new element by id or text.","Avoid caching nodes across UI updates."],`import { test, expect } from '@playwright/test';\n\ntest('stale element', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  await page.getByRole('button', { name: 'Replace button' }).click();\n  await expect(page.locator('#stale-replaced')).toBeVisible();\n});`),
-      makeContent(["Flaky elements change behavior due to timing, randomness, or unstable selectors.","Use <strong>expect</strong> with auto-wait and retries to stabilize checks.","Prefer deterministic assertions and isolate flaky UI logic.","Capture traces/screens on failure to debug."],`import { test, expect } from '@playwright/test';\n\ntest('flaky element', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  await page.getByRole('button', { name: 'Maybe works' }).click();\n  await expect(page.locator('#flaky-result')).toHaveText(/Success|Failed/);\n});`),
-      makeContent(["API delays can slow UI updates; use route mocks for reliable tests.","Intercept network calls with <strong>page.route</strong> and return a fast response.","Wait for the UI to reflect the mocked data.","Use <strong>waitForResponse</strong> when validating network calls."],`import { test, expect } from '@playwright/test';\n\ntest('api delay and mocking', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.route('**/api/**', (route) => route.fulfill({ status: 200, body: JSON.stringify({ ok: true }) }));\n  await page.goto(url);\n\n  await page.getByRole('button', { name: 'Fetch data' }).click();\n  await expect(page.locator('#api-result')).toHaveText(/Data loaded|No data/);\n});`),
-      makeContent(["Sticky header tables keep the header visible while the body scrolls.","Scroll the table container and assert the header remains visible.","Prefer container scrolling instead of window scrolling for accuracy.","Validate column headers to ensure alignment after scroll."],`import { test, expect } from '@playwright/test';\n\ntest('sticky header table', async ({ page }) => {\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\n  await page.goto(url);\n\n  const wrap = page.locator('.sticky-wrap');\n  await wrap.evaluate((el) => { el.scrollTop = el.scrollHeight; });\n  await expect(page.locator('#sticky-table thead')).toBeVisible();\n});`)
-      ];
-
-      const apiContentList = [
-        makeContent(
-          [
-            "Playwright includes an <strong>APIRequestContext</strong> via the <strong>request</strong> fixture for direct REST calls.",
-            "Use API tests for fast data setup, teardown, and pure backend validation.",
-            "Set a <strong>baseURL</strong> in config or call full URLs in each request.",
-            "Always assert <strong>status</strong> and validate the response JSON."
-          ],
-          `import { test, expect } from '@playwright/test';\n\ntest('api basics', async ({ request }) => {\n  const response = await request.get('https://restful-api.dev/objects');\n  expect(response.ok()).toBeTruthy();\n  const body = await response.json();\n  expect(Array.isArray(body)).toBeTruthy();\n});`
-        ),
-        makeContent(
-          [
-            "GET list endpoints return collections of objects.",
-            "Assert status code and ensure the response is an array.",
-            "Validate basic fields like <strong>id</strong> or <strong>name</strong> exist."
-          ],
-          `import { test, expect } from '@playwright/test';\n\ntest('list objects', async ({ request }) => {\n  const response = await request.get('https://restful-api.dev/objects');\n  expect(response.status()).toBe(200);\n  const body = await response.json();\n  expect(body.length).toBeGreaterThan(0);\n  expect(body[0]).toHaveProperty('id');\n});`
-        ),
-        makeContent(
-          [
-            "Create a test object and then fetch it by id.",
-            "Validate the returned fields match what you created.",
-            "This pattern avoids hard-coded ids that might not exist."
-          ],
-          `import { test, expect } from '@playwright/test';\n\ntest('get object by id', async ({ request }) => {\n  const created = await request.post('https://restful-api.dev/objects', {\n    data: { name: 'PW object', data: { type: 'api' } }\n  });\n  const createdBody = await created.json();\n\n  const response = await request.get('https://restful-api.dev/objects/' + createdBody.id);\n  expect(response.ok()).toBeTruthy();\n  const body = await response.json();\n  expect(body.name).toBe('PW object');\n});`
-        ),
-        makeContent(
-          [
-            "POST creates new objects and returns the created data.",
-            "Assert status and capture the returned <strong>id</strong> for follow-up steps.",
-            "Keep your payload small and deterministic."
-          ],
-          `import { test, expect } from '@playwright/test';\n\ntest('create object', async ({ request }) => {\n  const response = await request.post('https://restful-api.dev/objects', {\n    data: { name: 'Playwright Phone', data: { year: 2026, price: 499 } }\n  });\n  expect(response.ok()).toBeTruthy();\n  const body = await response.json();\n  expect(body).toHaveProperty('id');\n});`
-        ),
-        makeContent(
-          [
-            "<strong>PUT</strong> replaces the full object, so send all required fields.",
-            "Use PUT when you want to overwrite the entire resource.",
-            "Assert the returned data reflects the new payload."
-          ],
-          `import { test, expect } from '@playwright/test';\n\ntest('replace object (PUT)', async ({ request }) => {\n  const created = await request.post('https://restful-api.dev/objects', {\n    data: { name: 'Temp device', data: { year: 2025 } }\n  });\n  const { id } = await created.json();\n\n  const response = await request.put('https://restful-api.dev/objects/' + id, {\n    data: { name: 'Updated device', data: { year: 2026, price: 799 } }\n  });\n  expect(response.ok()).toBeTruthy();\n  const body = await response.json();\n  expect(body.name).toBe('Updated device');\n});`
-        ),
-        makeContent(
-          [
-            "<strong>PATCH</strong> updates only specific fields.",
-            "Use PATCH when you want minimal changes to the resource.",
-            "Verify only the targeted fields changed."
-          ],
-          `import { test, expect } from '@playwright/test';\n\ntest('update object field (PATCH)', async ({ request }) => {\n  const created = await request.post('https://restful-api.dev/objects', {\n    data: { name: 'Patch device', data: { year: 2024, price: 350 } }\n  });\n  const { id } = await created.json();\n\n  const response = await request.patch('https://restful-api.dev/objects/' + id, {\n    data: { name: 'Patch device v2' }\n  });\n  expect(response.ok()).toBeTruthy();\n  const body = await response.json();\n  expect(body.name).toBe('Patch device v2');\n});`
-        ),
-        makeContent(
-          [
-            "DELETE removes the resource by id.",
-            "Use delete in teardown or to keep test data clean.",
-            "Assert the delete call succeeds."
-          ],
-          `import { test, expect } from '@playwright/test';\n\ntest('delete object', async ({ request }) => {\n  const created = await request.post('https://restful-api.dev/objects', {\n    data: { name: 'Delete me', data: { year: 2023 } }\n  });\n  const { id } = await created.json();\n\n  const response = await request.delete('https://restful-api.dev/objects/' + id);\n  expect(response.ok()).toBeTruthy();\n});`
-        ),
-        makeContent(
-          [
-            "Assert status codes and response headers for API reliability.",
-            "Check <strong>content-type</strong> and other critical headers.",
-            "Validate the response body matches expectations."
-          ],
-          `import { test, expect } from '@playwright/test';\n\ntest('status and headers', async ({ request }) => {\n  const response = await request.get('https://restful-api.dev/objects');\n  expect(response.status()).toBe(200);\n  const headers = response.headers();\n  expect(headers['content-type']).toContain('application/json');\n  const body = await response.json();\n  expect(Array.isArray(body)).toBeTruthy();\n});`
-        ),
-        makeContent(
-          [
-            "Chain requests in one test: create → validate → clean up.",
-            "Store ids from responses for later steps.",
-            "Always delete test data if the API allows it."
-          ],
-          `import { test, expect } from '@playwright/test';\n\ntest('chain requests with cleanup', async ({ request }) => {\n  const created = await request.post('https://restful-api.dev/objects', {\n    data: { name: 'Chain device', data: { year: 2022 } }\n  });\n  const { id } = await created.json();\n\n  const response = await request.get('https://restful-api.dev/objects/' + id);\n  expect(response.ok()).toBeTruthy();\n\n  const cleanup = await request.delete('https://restful-api.dev/objects/' + id);\n  expect(cleanup.ok()).toBeTruthy();\n});`
-        )
-      ];
-
-    const formatCode = (code) => code.replace(/\\n/g, "\n");
-
-    function estimateMinutes(points, code) {
-      const pointCount = Array.isArray(points) ? points.length : 0;
-      const codeLines = formatCode(code || "").split("\n").length;
-      const raw = Math.round(pointCount * 0.9 + codeLines * 0.15);
-      return Math.min(20, Math.max(6, raw));
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
     }
 
-    function formatMinutes(totalMinutes) {
-      if (!Number.isFinite(totalMinutes)) return "0 min";
-      const hours = Math.floor(totalMinutes / 60);
-      const minutes = totalMinutes % 60;
-      if (hours <= 0) return `${minutes} min`;
-      if (minutes === 0) return `${hours} hr`;
-      return `${hours} hr ${minutes} min`;
+    function isLikelyMobileDevice() {
+      const userAgent = navigator.userAgent || "";
+      return /Android|iPhone|iPad|iPod|Mobile/i.test(userAgent);
     }
 
-    function addExtraExplanations(points, title) {
-      const list = Array.isArray(points) ? [...points] : [];
-      const lower = title.toLowerCase();
-      const extra = [];
-      if (list.length < 6) {
-        extra.push(
-          `Best practice: keep ${lower} steps focused and assert the final UI state right after the action.`,
-          "Avoid fixed waits; rely on Playwright auto-waiting and explicit expectations instead."
-        );
-      }
-      if (list.length < 4) {
-        extra.push("Prefer stable, user-facing locators (role/label/text) to reduce flaky tests.");
-      }
-      return list.concat(extra);
-    }
+    function setCoffeeLink() {
+      if (!coffeeLink) return;
 
-      const scenarioBank = {
-        "Introduction": {
-          interview: [
-            "You are starting a cross-browser test suite for a single-page app. How would you structure Playwright projects and choose browsers to keep runtime reasonable?",
-            "A team complains about flaky Selenium tests. Which Playwright features would you use first to improve stability?",
-            "You need both API checks and UI checks. How would you split coverage between Playwright API and Playwright UI?"
-          ],
-          edges: [
-            "The app behaves differently in WebKit versus Chromium. How do you keep browser-specific expectations organized?",
-            "Tests must run in a locked-down network where browser downloads are blocked. How do you handle setup?"
-          ]
-        },
-        "Installation & Environment Setup": {
-          interview: [
-            "CI fails with browser executable not found. What steps or commands would you add to the pipeline?",
-            "Two developers get different results due to Node versions. How do you standardize the environment?",
-            "How would you plan Playwright upgrades so you can roll back if tests break?"
-          ],
-          edges: [
-            "Install works locally but fails behind a proxy or firewall. What configuration do you use for browser downloads?",
-            "The CI agent has a read-only home directory. Where do you store Playwright browsers?"
-          ]
-        },
-        "How to Create and Run Tests in Playwright VS Code Editor": {
-          interview: [
-            "You need to debug one failing test in VS Code. What exact steps or commands do you use?",
-            "You want to run only smoke tests from the terminal. How do you tag and run them?",
-            "A test passes headed but fails headless. How do you investigate using VS Code tools?"
-          ],
-          edges: [
-            "VS Code shows no tests in the Test Explorer. What project setup issue would you check first?",
-            "A test fails because of a relative file path when run in VS Code. How do you fix the working directory?"
-          ]
-        },
-        "Locating Web Elements - XPath & CSS": {
-          interview: [
-            "A page has two Submit buttons. How would you build a stable CSS or XPath selector for the correct one?",
-            "An element has no id and classes change every build. How would you craft a resilient selector?",
-            "When would you choose XPath over CSS in a real project?"
-          ],
-          edges: [
-            "A DOM refactor changes the hierarchy and your XPath breaks. How do you prevent this type of failure?",
-            "The text contains extra whitespace or dynamic numbers. How do you write a tolerant XPath?"
-          ]
-        },
-        "Locating Web Elements - Built-in locators in Playwright": {
-          interview: [
-            "A button label changes with localization. Which built-in locator would you choose and why?",
-            "You have multiple elements with the same role. How do you narrow the locator without CSS?",
-            "Why are getByRole and getByLabel preferred over raw CSS for long-lived tests?"
-          ],
-          edges: [
-            "An element is inside a dialog overlay and there are duplicates on the page. How do you scope the locator?",
-            "The accessible name changes after a redesign. What is your fallback locator strategy?"
-          ]
-        },
-        "Parameterized Test Generator (Generate Tests with Changes Tool)": {
-          interview: [
-            "Codegen produced a long script. How would you refactor it into a clean test?",
-            "Generated locators are fragile. What steps do you take to stabilize them?",
-            "When is codegen useful, and when would you avoid it?"
-          ],
-          edges: [
-            "Codegen recorded clicks on hidden elements due to overlays. How do you fix the flow?",
-            "Generated steps use hard-coded text that changes with data. How do you replace it?"
-          ]
-        },
-        "Assertions in Playwright": {
-          interview: [
-            "Text appears after an API call. Which assertion pattern avoids fixed waits?",
-            "You need to assert a list of items and their order. What assertion would you use?",
-            "When would you use expect.poll instead of expect with a locator?"
-          ],
-          edges: [
-            "A negative assertion passes too early before the element appears later. How do you avoid a false pass?",
-            "The UI shows a loading state and then a final state. How do you assert the final state only?"
-          ]
-        },
-        "Hard & Soft Assertions in Playwright": {
-          interview: [
-            "In a checkout flow, which checks should be hard versus soft, and why?",
-            "You want to collect all UI issues on a page without stopping the test. How do you do it?",
-            "How do soft assertion failures affect the final test result?"
-          ],
-          edges: [
-            "Soft assertions on a slow element cause long waits. How do you control timeouts per assertion?",
-            "Soft assertions on critical steps hide real failures. How do you structure your checks?"
-          ]
-        },
-        "Handling Input Box & Radio Buttons": {
-          interview: [
-            "A form is pre-filled. How do you replace the value and verify it?",
-            "Radio inputs are custom-styled. How do you ensure you click the correct radio?",
-            "How do you assert that only one radio in a group is selected?"
-          ],
-          edges: [
-            "Typing triggers debounce validation. How do you wait for the validation result?",
-            "The input is covered by an animation overlay. How do you ensure it is ready before typing?"
-          ]
-        },
-        "Handling Check Boxes": {
-          interview: [
-            "You need to set a checkbox to a known state regardless of current value. How do you do it?",
-            "A checkbox is disabled until another field is filled. How do you assert and then toggle it?",
-            "How would you select multiple checkboxes based on a data list?"
-          ],
-          edges: [
-            "Checkbox state leaks from a previous test. How do you isolate test state?",
-            "Clicking the label toggles the wrong checkbox due to duplicate ids. How do you detect and fix this?"
-          ]
-        },
-        "How to handle DropDown": {
-          interview: [
-            "Options load from an API. How do you wait before selecting?",
-            "When would you select by value versus by label?",
-            "How do you verify the selected option is correct?"
-          ],
-          edges: [
-            "The dropdown is disabled until another field is set. How do you handle it?",
-            "Option labels repeat. How do you pick the correct option reliably?"
-          ]
-        },
-        "How to handle multi select dropdown": {
-          interview: [
-            "How do you select multiple values and then assert them?",
-            "How do you clear all selections in a multi-select?",
-            "How would you validate selection order if the UI displays it?"
-          ],
-          edges: [
-            "Multi-select does not fire change on programmatic select. How do you trigger it?",
-            "Options are virtualized and not all are in the DOM. How do you select an off-screen option?"
-          ]
-        },
-        "How to handle Bootstrap Drop Down": {
-          interview: [
-            "A Bootstrap dropdown is not a select. How do you open it and choose an item?",
-            "How do you assert the selected label appears in the toggle button?",
-            "How do you handle a dropdown that closes on blur?"
-          ],
-          edges: [
-            "Menu items are rendered in a portal at the end of the DOM. How do you locate them?",
-            "A click closes the menu before the handler runs. How do you stabilize the action?"
-          ]
-        },
-        "How to handle Auto Suggestion Box": {
-          interview: [
-            "Suggestions load asynchronously. How do you wait and choose the right one?",
-            "How do you select a suggestion using keyboard navigation?",
-            "How do you assert the chosen suggestion populated the input?"
-          ],
-          edges: [
-            "Suggestions change on each keystroke and cause flakiness. How do you stabilize it?",
-            "Two suggestions have similar text. How do you select the correct one?"
-          ]
-        },
-        "How to handle Hidden Items in Drop Down": {
-          interview: [
-            "Options are present but hidden until scroll. How do you select one safely?",
-            "When should you scroll into view versus use a direct select?",
-            "How do you verify the hidden option becomes visible before clicking?"
-          ],
-          edges: [
-            "The option exists in the DOM but has display:none. What check do you use before clicking?",
-            "The list is virtualized so items render on scroll. How do you load the option?"
-          ]
-        },
-        "How to handle Dialog/Alerts": {
-          interview: [
-            "A confirm dialog appears after delete. How do you accept and assert the result?",
-            "How do you capture dialog text and validate it?",
-            "How do you enter a value into a prompt dialog?"
-          ],
-          edges: [
-            "The dialog opens before your listener is registered. How do you avoid missing it?",
-            "Multiple dialogs appear in sequence. How do you handle them reliably?"
-          ]
-        },
-        "How to handle multiple pages/windows": {
-          interview: [
-            "A link opens a new tab. How do you wait for it and switch context?",
-            "How do you close a child window and return to the original page?",
-            "How do you assert the new page URL and title?"
-          ],
-          edges: [
-            "The popup is blocked or delayed. How do you prevent race conditions?",
-            "The new page navigates to another domain. How do you handle storage or permissions?"
-          ]
-        },
-        "How to handle iframes": {
-          interview: [
-            "An element is inside an iframe. How do you locate and click it?",
-            "How do you wait for an iframe to load before interacting?",
-            "How do you handle iframes that change their URL?"
-          ],
-          edges: [
-            "The iframe reloads mid-test and your locator becomes stale. How do you recover?",
-            "The iframe is cross-origin and you cannot access DOM. What is your approach?"
-          ]
-        },
-        "How to handle inner iframes": {
-          interview: [
-            "There are nested iframes. How do you target the inner frame?",
-            "How do you debug which frame contains the element?",
-            "How do you handle nested frames that load at different times?"
-          ],
-          edges: [
-            "The inner frame appears only after a user action. How do you wait for it?",
-            "Frame names or ids are dynamic. How do you locate by URL or other hints?"
-          ]
-        },
-        "How to handle Web Tables": {
-          interview: [
-            "You need to find a row by text and click a button inside it. How do you do it?",
-            "How do you handle pagination and verify row counts?",
-            "How do you assert sorting works for a column?"
-          ],
-          edges: [
-            "Table data loads asynchronously. How do you wait for stable content?",
-            "Rows reorder after filtering. How do you avoid index-based locators?"
-          ]
-        },
-        "How to handle Date Pickers": {
-          interview: [
-            "A date picker is a custom UI. How do you select a specific date reliably?",
-            "How do you handle different date formats or locales?",
-            "How do you select today or a future date without hardcoding?"
-          ],
-          edges: [
-            "Some dates are disabled due to min and max rules. How do you avoid clicking them?",
-            "The calendar uses infinite months. How do you navigate quickly to the target month?"
-          ]
-        },
-        "Mouse Hover Action": {
-          interview: [
-            "A menu appears on hover. How do you hover and click a menu item?",
-            "How do you verify tooltip text after hover?",
-            "How do you keep a menu open while moving to a submenu?"
-          ],
-          edges: [
-            "Hover triggers animation and the menu is not clickable immediately. How do you wait?",
-            "The tooltip disappears when the mouse moves. How do you assert it reliably?"
-          ]
-        },
-        "Mouse Right Click/Context Click action": {
-          interview: [
-            "Right click opens a context menu. How do you select an item and assert the result?",
-            "How do you prevent the browser default menu from interfering?",
-            "How do you assert the menu closes after selection?"
-          ],
-          edges: [
-            "The context menu renders in a portal overlay. How do you locate it?",
-            "Right click triggers both click and context events. How do you isolate the desired behavior?"
-          ]
-        },
-        "Mouse Double Click Action": {
-          interview: [
-            "Double click puts a row into edit mode. How do you assert the editor appears?",
-            "When would you use dblclick versus two clicks?",
-            "How do you ensure the element is stable before double clicking?"
-          ],
-          edges: [
-            "Double click triggers navigation. How do you wait for the navigation?",
-            "The element moves between clicks due to hover effects. How do you stabilize it?"
-          ]
-        },
-        "Mouse Drag and Drop Action": {
-          interview: [
-            "Drag a card to a new column. How do you verify the drop was successful?",
-            "What do you do if dragTo fails for HTML5 drag and drop?",
-            "How do you assert order after rearranging items?"
-          ],
-          edges: [
-            "The drop target is inside an iframe. How do you handle it?",
-            "The target requires hover before drop. How do you simulate that?"
-          ]
-        },
-        "Keyboard Actions": {
-          interview: [
-            "You need to submit a form using Enter and move between fields with Tab. How do you do it?",
-            "How do you trigger a shortcut like Ctrl+K or Cmd+P?",
-            "When do you use keyboard.type versus keyboard.press?"
-          ],
-          edges: [
-            "Focus is not on the expected field. How do you ensure correct focus first?",
-            "Shortcuts differ on Mac and Windows. How do you make tests portable?"
-          ]
-        },
-        "How to handle Upload Files": {
-          interview: [
-            "A file input is hidden behind a button. How do you upload anyway?",
-            "How do you upload multiple files and verify the list?",
-            "How do you validate that the upload finished successfully?"
-          ],
-          edges: [
-            "The app uses a native file chooser. How do you handle it in Playwright?",
-            "Upload uses drag and drop instead of an input. How do you simulate it?"
-          ]
-        },
-        "Grouping tests": {
-          interview: [
-            "You have a shared login step. Do you use beforeEach or beforeAll, and why?",
-            "How do you tag tests as smoke or regression and run only those?",
-            "How do you keep grouped tests isolated from each other?"
-          ],
-          edges: [
-            "Shared setup is slow and causes timeouts. How do you speed it up safely?",
-            "Parallel runs cause data conflicts between grouped tests. How do you prevent it?"
-          ]
-        },
-        "Capture Screenshots": {
-          interview: [
-            "You only want screenshots on failure. How do you configure that?",
-            "How do you take an element-level screenshot for a visual check?",
-            "How do you name screenshots to avoid overwriting in parallel runs?"
-          ],
-          edges: [
-            "Animations cause screenshot diffs. How do you stabilize the UI?",
-            "Full-page screenshots miss lazy-loaded sections. How do you ensure content loads?"
-          ]
-        },
-        "Recording Videos for tests": {
-          interview: [
-            "When would you keep videos for all tests versus only failures?",
-            "Where do you configure video recording and output folder?",
-            "How do you access videos in the HTML report?"
-          ],
-          edges: [
-            "Video files are too large in CI. How do you reduce storage?",
-            "Video is not recorded for a test. What config or context issue would you check?"
-          ]
-        },
-        "Trace Viewer": {
-          interview: [
-            "A test fails only in CI. How do you use Trace Viewer to debug it?",
-            "What does a trace capture that screenshots and logs do not?",
-            "How do you collect traces only on the first retry?"
-          ],
-          edges: [
-            "Trace file is missing or overwritten in parallel runs. How do you name it uniquely?",
-            "Trace size is huge and slows tests. How do you limit it?"
-          ]
-        },
-        "Tracing tests": {
-          interview: [
-            "Why would you start and stop tracing inside a specific test instead of global config?",
-            "Where do you place tracing start and stop around a flaky step?",
-            "How do you include screenshots and DOM snapshots in the trace?"
-          ],
-          edges: [
-            "Tracing slows down the test suite. How do you scope it?",
-            "Multiple tests write the same trace path. How do you avoid collisions?"
-          ]
-        },
-        "Page Object Model": {
-          interview: [
-            "What should be inside a page object versus inside the test?",
-            "How do you handle waits inside page object methods?",
-            "How do you prevent page objects from leaking state across tests?"
-          ],
-          edges: [
-            "A page object stores ElementHandles that become stale. How do you fix it?",
-            "Too much abstraction makes tests hard to read. How do you balance POM depth?"
-          ]
-        },
-        "How to Handle Failed Test Cases - Retries and Failures": {
-          interview: [
-            "A test is flaky. How do you decide between fixing it or adding retries?",
-            "How do you enable traces or screenshots only on retry?",
-            "How do you set different retry counts per project or test?"
-          ],
-          edges: [
-            "Retries hide a real regression because the second run passes. How do you detect this?",
-            "A test passes on retry but leaves the app in a dirty state. How do you clean up?"
-          ]
-        },
-        "Handling Range Sliders": {
-          interview: [
-            "A slider updates a value label. How do you set and assert the value?",
-            "When would you drag the slider versus set its value directly?",
-            "How do you test min and max boundary values?"
-          ],
-          edges: [
-            "Slider snaps to steps like 10, 20, 30. How do you assert the correct step?",
-            "Slider is disabled until another field is set. How do you handle it?"
-          ]
-        },
-        "Handling Progress Bars": {
-          interview: [
-            "Progress updates asynchronously. How do you assert completion without fixed waits?",
-            "Which attributes like width, aria-valuenow, or text would you verify and why?",
-            "How do you assert that a progress bar stops at 100 percent?"
-          ],
-          edges: [
-            "Progress stalls at 90 percent due to an error. How do you detect and fail fast?",
-            "Progress completes too quickly to observe intermediate states. What do you assert instead?"
-          ]
-        },
-        "Handling Toast Notifications": {
-          interview: [
-            "A toast appears briefly. How do you assert it without flakiness?",
-            "How do you verify the toast message for a specific action?",
-            "How do you handle multiple toasts stacked together?"
-          ],
-          edges: [
-            "Toast renders in an overlay or portal. How do you locate it?",
-            "Auto-dismiss timing varies across environments. How do you stabilize the check?"
-          ]
-        },
-        "Handling Broken Images": {
-          interview: [
-            "How do you detect broken images in a UI test?",
-            "When would you check naturalWidth versus network response?",
-            "How would you collect all broken images on a page?"
-          ],
-          edges: [
-            "Images are lazy-loaded. How do you ensure they load before checking?",
-            "A CDN returns a placeholder image with status 200. How do you detect a real failure?"
-          ]
-        },
-        "Handling Shadow DOM": {
-          interview: [
-            "How do you interact with elements inside open shadow DOM in Playwright?",
-            "What do you do if the shadow root is closed?",
-            "How do you target elements inside nested shadow roots?"
-          ],
-          edges: [
-            "A component re-renders and the shadow DOM node is replaced. How do you keep locators stable?",
-            "Shadow DOM is inside an iframe. How do you combine frame and shadow locators?"
-          ]
-        },
-        "Handling Infinite Scroll": {
-          interview: [
-            "How do you verify new items load after scrolling?",
-            "How do you stop scrolling when no more items are available?",
-            "How do you prevent duplicate items when loading more?"
-          ],
-          edges: [
-            "Scroll triggers multiple concurrent loads. How do you wait for one batch at a time?",
-            "Virtualized lists remove earlier items. How do you assert results correctly?"
-          ]
-        },
-        "Handling Delayed Elements": {
-          interview: [
-            "An element appears after an API call. How do you wait without fixed sleeps?",
-            "How do you set a custom timeout for a slow element?",
-            "How do you ensure the element is ready before clicking?"
-          ],
-          edges: [
-            "The element appears but is covered by a spinner. How do you ensure it is clickable?",
-            "The element appears briefly then disappears. How do you capture it?"
-          ]
-        },
-        "Handling Stale Elements": {
-          interview: [
-            "The UI re-renders after a click and old nodes detach. How do you avoid stale element errors?",
-            "Why do locators help more than ElementHandles in Playwright?",
-            "How do you re-query an element after it is replaced?"
-          ],
-          edges: [
-            "You stored an ElementHandle in a page object. What problems can that cause?",
-            "The DOM re-renders on every keystroke. How do you avoid stale references?"
-          ]
-        },
-        "Handling Flaky Elements": {
-          interview: [
-            "A test fails randomly due to timing. What are your first three stabilization steps?",
-            "How do you replace fixed waits with Playwright auto-waiting?",
-            "How do you use traces or screenshots to debug intermittent failures?"
-          ],
-          edges: [
-            "A third-party widget loads unpredictably. How do you isolate or mock it?",
-            "Network jitter causes occasional timeouts. How do you adjust retries and timeouts?"
-          ]
-        },
-        "Handling API Delays and Mocking": {
-          interview: [
-            "Backend is slow or unreliable. How do you mock the API response in Playwright?",
-            "How do you assert the request payload and UI updates after a mocked response?",
-            "When would you use waitForResponse versus route.fulfill?"
-          ],
-          edges: [
-            "Multiple endpoints match the same route pattern. How do you narrow it?",
-            "Mocked API returns an error. How do you assert the error state?"
-          ]
-        },
-        "Sticky Header Tables": {
-          interview: [
-            "How do you verify the header stays fixed while the table body scrolls?",
-            "How do you ensure header and body columns stay aligned?",
-            "How do you test sticky headers with dynamic row heights?"
-          ],
-          edges: [
-            "The sticky header works in Chromium but not WebKit. How do you assert cross-browser?",
-            "The table scrolls inside a container, not the window. How do you target the correct scroller?"
-          ]
-        },
-        "API Testing Basics with Playwright": {
-          interview: [
-            "When would you choose API tests over UI tests in a Playwright suite?",
-            "How do you configure a baseURL and shared headers for API tests?",
-            "What are the minimum assertions you always include in an API test?"
-          ],
-          edges: [
-            "The API is rate-limited and starts returning 429. How do you make tests resilient?",
-            "The API returns 200 with an error payload. How do you catch this?"
-          ]
-        },
-        "GET: List Objects": {
-          interview: [
-            "How do you validate list endpoints without hard-coding the exact count?",
-            "What fields would you validate in a list response to ensure shape is correct?",
-            "How do you handle pagination or filtering in list APIs?"
-          ],
-          edges: [
-            "The list endpoint returns an empty array in some environments. How do you keep the test meaningful?",
-            "Items are returned in different order. How do you avoid flaky assertions?"
-          ]
-        },
-        "GET: Object by ID": {
-          interview: [
-            "How do you avoid hard-coded IDs that might not exist?",
-            "What assertions would you make on the object response?",
-            "How do you handle 404 responses for missing objects?"
-          ],
-          edges: [
-            "The object exists but fields are null or missing. How do you validate optional fields?",
-            "The ID format changes from numeric to UUID. How do you update tests safely?"
-          ]
-        },
-        "POST: Create Object": {
-          interview: [
-            "What payload fields are required for a successful create request?",
-            "How do you validate the create response matches the request?",
-            "How do you clean up created data after the test?"
-          ],
-          edges: [
-            "The API returns 201 but the body is missing the id. How do you handle it?",
-            "Create succeeds but triggers async processing. How do you verify completion?"
-          ]
-        },
-        "PUT: Replace Object": {
-          interview: [
-            "When would you use PUT instead of PATCH?",
-            "How do you ensure all required fields are included in a PUT request?",
-            "How do you verify the resource is fully replaced?"
-          ],
-          edges: [
-            "PUT silently drops unknown fields. How do you detect data loss?",
-            "PUT updates the object but keeps old nested data. How do you validate full replacement?"
-          ]
-        },
-        "PATCH: Update Object Field": {
-          interview: [
-            "How do you choose which fields to update in a PATCH request?",
-            "How do you assert only the intended fields changed?",
-            "How do you handle partial updates on nested objects?"
-          ],
-          edges: [
-            "PATCH accepts invalid fields but ignores them. How do you test for this?",
-            "PATCH fails due to version conflicts. How do you stabilize the test?"
-          ]
-        },
-        "DELETE: Remove Object": {
-          interview: [
-            "How do you confirm a delete actually removed the resource?",
-            "When should deletes be part of teardown versus part of a test case?",
-            "How do you handle soft delete APIs that return 200 but keep data?"
-          ],
-          edges: [
-            "DELETE returns 204 with no body. How do you still assert success?",
-            "Deleting a resource breaks other tests that depend on it. How do you isolate data?"
-          ]
-        },
-        "Status & Headers Validation": {
-          interview: [
-            "Which headers do you usually assert in API tests and why?",
-            "How do you validate content-type and caching headers?",
-            "How do you fail fast when an API returns the wrong status?"
-          ],
-          edges: [
-            "The API returns 200 for errors with an error object. How do you detect this?",
-            "Headers differ between environments. How do you keep assertions stable?"
-          ]
-        },
-        "Chaining Requests & Cleanup": {
-          interview: [
-            "How do you chain requests to create data, validate it, and clean it up?",
-            "What is your strategy for cleanup when a test fails mid-way?",
-            "How do you keep chained requests readable and maintainable?"
-          ],
-          edges: [
-            "Cleanup fails due to a transient error. How do you avoid leaving data behind?",
-            "Parallel tests create conflicting data. How do you namespace or isolate it?"
-          ]
-        }
-      };
-
-      function defaultScenario(title) {
-        return {
-          interview: [
-            `You are adding ${title} to a regression suite. What is the first stable check you would automate and why?`,
-            `A test around ${title} fails intermittently. How would you stabilize it without fixed waits?`,
-            `What data or environment risk could affect ${title}, and how would you guard against it?`
-          ],
-          edges: [
-            `The UI for ${title} changes between builds. How do you keep the test resilient?`,
-            `The app is slow or unstable around ${title}. How do you prevent false failures?`
-          ]
-        };
-      }
-
-      function getScenario(title) {
-        return scenarioBank[title] || defaultScenario(title);
-      }
-
-      function enrichContent(content, title) {
-        const points = addExtraExplanations(content.points || [], title);
-        const scenario = getScenario(title);
-        const interview = content.interview && content.interview.length ? content.interview : scenario.interview;
-        const edges = content.edges && content.edges.length ? content.edges : scenario.edges;
-        return { ...content, points, interview, edges };
-      }
-
-    function defaultContent(title) {
-      return {
-        points: [
-          "What this topic covers and where it fits in the test flow.",
-          `The main Playwright API you will use for ${title}.`,
-          "A small best practice to keep tests stable and readable."
-        ],
-        code: "import { test, expect } from '@playwright/test';\\n\\ntest('basic flow', async ({ page }) => {\\n  const url = 'https://hussain-automation-practice.blogspot.com/#advanced';\\n  await page.goto(url);\\n  await expect(page.getByRole('heading', { name: /Practice every Playwright concept/i })).toBeVisible();\\n});",
-        interview: [],
-        edges: []
-      };
-    }
-      function stripTags(text) {
-        return text.replace(/<[^>]*>/g, "");
-      }
-
-      function buildTopics(titles, contentList, offset = 0) {
-        return titles.map((title, index) => {
-          const id = slugify(title);
-          const base = contentList[index] || defaultContent(title);
-          const content = enrichContent(base, title);
-          return {
-            id,
-            number: String(offset + index + 1).padStart(2, "0"),
-            title,
-            summary: stripTags(content.points[0]),
-            points: content.points,
-            code: content.code,
-            interview: content.interview,
-            edges: content.edges,
-            minutes: estimateMinutes(content.points, content.code)
-          };
-        });
-      }
-
-      const uiTopics = buildTopics(uiTopicTitles, uiContentList, 0);
-      const apiTopics = buildTopics(apiTopicTitles, apiContentList, uiTopicTitles.length);
-      const topics = [...uiTopics, ...apiTopics];
-    let currentView = "home";
-
-    const views = Array.from(document.querySelectorAll("[data-view]"));
-    const navButtons = Array.from(document.querySelectorAll(".nav-btn"));
-    const navTriggers = Array.from(document.querySelectorAll("[data-nav]"));
-
-    const topicGrid = document.getElementById("topic-grid");
-    const topicTitle = document.getElementById("topic-title");
-    const topicSummary = document.getElementById("topic-summary");
-    const detailStep = document.getElementById("detail-step");
-    const detailOwner = document.getElementById("detail-owner");
-    const detailMeta = document.getElementById("detail-meta");
-    const detailPoints = document.getElementById("detail-points");
-    const detailCode = document.getElementById("detail-code");
-    const detailInterview = document.getElementById("detail-interview");
-    const detailEdges = document.getElementById("detail-edges");
-      const copyCode = document.getElementById("copy-code");
-      const toggleCode = document.getElementById("toggle-code");
-      const codeBlock = document.getElementById("code-block");
-      const codeFade = document.getElementById("code-fade");
-      const ctaStart = document.getElementById("cta-start");
-      const heroModules = document.getElementById("hero-modules");
-      const moduleCount = document.getElementById("module-count");
-      const totalTimePill = document.getElementById("total-time-pill");
-      const apiModuleCount = document.getElementById("api-module-count");
-      const apiTimePill = document.getElementById("api-time-pill");
-      const progressCount = document.getElementById("progress-count");
-      const progressFill = document.getElementById("progress-fill");
-      const progressReset = document.getElementById("progress-reset");
-      const progressBar = document.querySelector(".progress-bar");
-      const completeToggle = document.getElementById("topic-complete");
-      const themeToggle = document.getElementById("theme-toggle");
-      const apiTopicGrid = document.getElementById("api-topic-grid");
-
-      const totalMinutes = topics.reduce((sum, topic) => sum + topic.minutes, 0);
-      const uiMinutes = uiTopics.reduce((sum, topic) => sum + topic.minutes, 0);
-      const apiMinutes = apiTopics.reduce((sum, topic) => sum + topic.minutes, 0);
-      if (moduleCount) {
-        moduleCount.textContent = `${uiTopics.length} UI Modules`;
-      }
-      if (apiModuleCount) {
-        apiModuleCount.textContent = `${apiTopics.length} API Modules`;
-      }
-      if (heroModules) {
-        heroModules.textContent = String(topics.length);
-      }
-      if (totalTimePill) {
-        totalTimePill.textContent = `Total ~${formatMinutes(uiMinutes)}`;
-      }
-      if (apiTimePill) {
-        apiTimePill.textContent = `Total ~${formatMinutes(apiMinutes)}`;
-      }
-
-    const topicCardMap = new Map();
-    const storageKey = "pwts-topic-progress";
-    const themeStorageKey = "pwts-theme";
-    let completedTopics = new Set();
-    let currentTopicId = topics[0].id;
-    let lastView = null;
-
-    function scrollToTop() {
-      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      window.scrollTo({ top: 0, left: 0, behavior: reduceMotion ? "auto" : "smooth" });
-    }
-
-    function scrollToHomeTopic() {
-      const card = topicCardMap.get(currentTopicId);
-      if (!card) return;
-      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const topbar = document.querySelector(".topbar");
-      const offset = topbar ? topbar.offsetHeight + 12 : 0;
-      const y = card.getBoundingClientRect().top + window.scrollY - offset;
-      window.scrollTo({ top: Math.max(y, 0), left: 0, behavior: reduceMotion ? "auto" : "smooth" });
-    }
-
-    function handleKeyActivate(event, action) {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        action();
-      }
-    }
-
-    function loadProgress() {
-      try {
-        const raw = localStorage.getItem(storageKey);
-        if (!raw) return;
-        const list = JSON.parse(raw);
-        if (Array.isArray(list)) {
-          completedTopics = new Set(list.filter((id) => typeof id === "string"));
-        }
-      } catch (error) {
-        completedTopics = new Set();
-      }
-    }
-
-    function saveProgress() {
-      try {
-        localStorage.setItem(storageKey, JSON.stringify(Array.from(completedTopics)));
-      } catch (error) {
-        // Storage might be blocked; ignore and keep in-memory progress.
-      }
-    }
-
-    function isCompleted(id) {
-      return completedTopics.has(id);
-    }
-
-    function updateProgressUI() {
-      const total = topics.length;
-      const done = completedTopics.size;
-      if (progressCount) {
-        progressCount.textContent = `${done}/${total}`;
-      }
-      if (progressFill) {
-        const percent = total ? Math.round((done / total) * 100) : 0;
-        progressFill.style.width = `${percent}%`;
-      }
-      if (progressBar) {
-        progressBar.setAttribute("aria-valuenow", String(done));
-        progressBar.setAttribute("aria-valuemax", String(total));
-      }
-    }
-
-    function updateCardProgress() {
-      topicCardMap.forEach((card, key) => {
-        card.classList.toggle("done", isCompleted(key));
-      });
-    }
-
-    function updateDetailToggle() {
-      if (!completeToggle) return;
-      completeToggle.checked = isCompleted(currentTopicId);
-    }
-
-    function setCompleted(id, value) {
-      if (value) {
-        completedTopics.add(id);
-      } else {
-        completedTopics.delete(id);
-      }
-      saveProgress();
-      updateProgressUI();
-      updateCardProgress();
-      updateDetailToggle();
-    }
-
-    function setActiveCards(id) {
-      topicCardMap.forEach((card, key) => {
-        card.classList.toggle("active", key === id);
-      });
-    }
-
-    function setTopic(id) {
-      const topic = topics.find((item) => item.id === id) || topics[0];
-      currentTopicId = topic.id;
-
-      topicTitle.textContent = topic.title;
-      topicSummary.textContent = topic.summary;
-      detailStep.textContent = `Module ${topic.number}`;
-      detailOwner.textContent = `Focus: ${topic.title}`;
-      if (detailMeta) {
-        detailMeta.textContent = `Estimated time: ${topic.minutes} min`;
-      }
-      if (copyCode) {
-        copyCode.textContent = "Copy";
-      }
-
-      detailPoints.innerHTML = "";
-      topic.points.forEach((point) => {
-        const li = document.createElement("li");
-        li.innerHTML = point;
-        const plain = stripTags(point).trim();
-        if (plain.endsWith(":")) {
-          li.classList.add("detail-label");
-        }
-        detailPoints.appendChild(li);
-      });
-
-      if (detailInterview) {
-        detailInterview.innerHTML = "";
-        topic.interview.forEach((question) => {
-          const li = document.createElement("li");
-          li.textContent = question;
-          detailInterview.appendChild(li);
-        });
-      }
-
-      if (detailEdges) {
-        detailEdges.innerHTML = "";
-        topic.edges.forEach((edge) => {
-          const li = document.createElement("li");
-          li.textContent = edge;
-          detailEdges.appendChild(li);
-        });
-      }
-
-      detailCode.textContent = formatCode(topic.code);
-      resetCodeView();
-      setActiveCards(topic.id);
-      updateCta();
-      updateDetailToggle();
-    }
-
-    function resetCodeView() {
-      if (!codeBlock || !toggleCode || !codeFade) return;
-      codeBlock.classList.remove("expanded");
-      toggleCode.textContent = "Show more";
-      requestAnimationFrame(() => {
-        const fits = codeBlock.scrollHeight <= codeBlock.clientHeight + 2;
-        toggleCode.hidden = fits;
-        codeFade.classList.toggle("hidden", fits);
-      });
-    }
-
-    function updateCta() {
-      if (!ctaStart) return;
-      const topic = topics.find((item) => item.id === currentTopicId) || topics[0];
-      const isFirst = topic.id === topics[0].id;
-      const label = `${isFirst ? "Start" : "Resume"} module ${topic.number}`;
-      ctaStart.textContent = label;
-      ctaStart.setAttribute("aria-label", label);
-    }
-
-    async function copyCodeToClipboard() {
-      if (!detailCode) return;
-      const text = detailCode.textContent || "";
-      if (!text.trim()) return;
-      try {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          await navigator.clipboard.writeText(text);
-        } else {
-          const temp = document.createElement("textarea");
-          temp.value = text;
-          temp.setAttribute("readonly", "");
-          temp.style.position = "absolute";
-          temp.style.left = "-9999px";
-          document.body.appendChild(temp);
-          temp.select();
-          document.execCommand("copy");
-          document.body.removeChild(temp);
-        }
-        if (copyCode) {
-          copyCode.textContent = "Copied";
-          setTimeout(() => {
-            if (copyCode) copyCode.textContent = "Copy";
-          }, 1600);
-        }
-      } catch (error) {
-        if (copyCode) {
-          copyCode.textContent = "Copy failed";
-          setTimeout(() => {
-            if (copyCode) copyCode.textContent = "Copy";
-          }, 1600);
-        }
-      }
-    }
-
-    function goToOffset(delta) {
-      const list = topics;
-      if (!list.length) return;
-      let index = list.findIndex((item) => item.id === currentTopicId);
-      if (index === -1) index = 0;
-      const next = list[(index + delta + list.length) % list.length];
-      currentTopicId = next.id;
-      if (currentView === "theory") {
-        window.location.hash = `theory:${currentTopicId}`;
+      if (isLikelyMobileDevice()) {
+        coffeeLink.href = upiCoffeeLink;
+        coffeeLink.removeAttribute("target");
+        coffeeLink.removeAttribute("rel");
+        coffeeLink.title = "Pay with UPI";
         return;
       }
-      setActiveCards(currentTopicId);
-      updateCta();
-      scrollToHomeTopic();
+
+      coffeeLink.href = razorpayCoffeeLink;
+      coffeeLink.target = "_blank";
+      coffeeLink.rel = "noopener noreferrer";
+      coffeeLink.title = "Pay with Razorpay";
     }
 
-    function isTypingTarget() {
-      const active = document.activeElement;
-      if (!active) return false;
-      const tag = active.tagName;
-      return tag === "INPUT" || tag === "TEXTAREA" || active.isContentEditable;
-    }
+    const trackData = {
+      playwright: {
+        pill: "\u{1F3AF} Main Site",
+        proof: "54 Modules \u2022 45 UI + 9 API",
+        title: "Playwright Roadmap Site",
+        summary: "Once the TypeScript base is clear, this reading-first Playwright site moves from setup and locators through assertions, waits, reports, POM, tracing, retries, and API automation.",
+        points: [
+          "Best used after the TypeScript site so the syntax already feels familiar.",
+          "Useful for learners who want both UI automation and API coverage in one place.",
+          "Acts like a structured roadmap instead of scattered notes.",
+          "Good for revisiting Playwright features topic by topic."
+        ],
+        link: "https://hussain-playwright.blogspot.com/#home",
+        linkLabel: "Open Playwright Site \u{1F680}",
+        code: `import { test, expect } from "@playwright/test";
+
+test("open learning resource", async ({ page }) => {
+  await page.goto("https://example.com");
+  await page.getByRole("button", { name: "Start Learning" }).click();
+  await expect(page.getByText("Playwright Roadmap")).toBeVisible();
+});`
+      },
+      typescript: {
+        pill: "\u26A1 Reading Site",
+        proof: "18 Modules \u2022 9 Foundation + 9 Advanced",
+        title: "TypeScript Reading Map",
+        summary: "A dedicated TypeScript reading site that builds the coding habits automation engineers need before moving into Playwright and larger automation frameworks.",
+        points: [
+          "Start here to understand types, interfaces, classes, generics, and modules.",
+          "Makes later Playwright code easier to read, write, and debug.",
+          "Improves maintainability and structure in long-term automation projects.",
+          "Useful for both beginners and engineers who want sharper code quality."
+        ],
+        link: "https://hussain-typescript.blogspot.com/",
+        linkLabel: "Open TypeScript Site \u26A1",
+        code: `type Learner = {
+  name: string;
+  focus: "Playwright" | "TypeScript" | "Practice";
+};
+
+function buildHeadline(learner: Learner): string {
+  return \`\${learner.name} is exploring \${learner.focus}.\`;
+}`
+      },
+      practice: {
+        pill: "\u{1F9EA} Practice Site",
+        proof: "7 Practice Zones \u2022 Real Widgets",
+        title: "Automation Practice Playground",
+        summary: "A practical site for repeated locator work, assertions, waits, frame handling, dialogs, uploads, and advanced UI interactions after the reading-based topics are clear.",
+        points: [
+          "Best used after TypeScript and Playwright study so the exercises feel purposeful.",
+          "Turns reading into repetition with actual widgets and states.",
+          "Good for learning how to debug timing and locator issues.",
+          "Supports confidence-building after each topic."
+        ],
+        link: "https://hussain-automation-practice.blogspot.com/",
+        linkLabel: "Open Practice Site \u{1F9EA}",
+        code: `test("practice hidden dropdown", async ({ page }) => {
+  await page.goto("/practice");
+  await page.locator("#scrollableDropdownBtn").click();
+  await page.getByText("Option 8").click();
+  await expect(page.locator("#scrollableDropdownBtn")).toContainText("Option 8");
+});`
+      }
+    };
 
     function getPreferredTheme() {
-      try {
-        const stored = localStorage.getItem(themeStorageKey);
-        if (stored === "light" || stored === "dark") return stored;
-      } catch (error) {
-        // ignore
-      }
-      const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-      return prefersDark ? "dark" : "light";
+      return localStorage.getItem("portfolio-theme") || "dark";
     }
 
     function setTheme(theme) {
-      const nextTheme = theme === "dark" ? "dark" : "light";
-      document.documentElement.setAttribute("data-theme", nextTheme);
-      if (themeToggle) {
-        const isDark = nextTheme === "dark";
-        themeToggle.textContent = isDark ? "Light mode" : "Dark mode";
-        themeToggle.setAttribute("aria-pressed", String(isDark));
-        themeToggle.setAttribute("aria-label", isDark ? "Switch to light mode" : "Switch to dark mode");
-      }
+      document.documentElement.dataset.theme = theme;
+      const isDark = theme === "dark";
+      themeToggle.textContent = isDark ? "Light mode" : "Dark mode";
+      themeToggle.setAttribute("aria-pressed", String(isDark));
     }
 
-    function createTopicCard(topic) {
-      const card = document.createElement("div");
-      card.className = "topic-card";
-      card.dataset.topic = topic.id;
-      card.setAttribute("role", "button");
-      card.tabIndex = 0;
+    function populateTrack(track) {
+      const data = trackData[track];
+      if (!data) return;
 
-      const head = document.createElement("div");
-      head.className = "topic-head";
+      document.getElementById("track-pill").textContent = data.pill;
+      document.getElementById("track-proof").textContent = data.proof;
+      document.getElementById("track-title").textContent = data.title;
+      document.getElementById("track-summary").textContent = data.summary;
+      document.getElementById("track-code").textContent = data.code;
 
-      const number = document.createElement("div");
-      number.className = "topic-number";
-      number.textContent = topic.number;
-
-      const title = document.createElement("h3");
-      title.textContent = topic.title;
-
-      const summary = document.createElement("p");
-      summary.className = "topic-summary";
-      summary.textContent = topic.summary;
-
-      const status = document.createElement("div");
-      status.className = "topic-status";
-      status.textContent = "Completed";
-
-      const meta = document.createElement("div");
-      meta.className = "topic-meta";
-
-      const time = document.createElement("div");
-      time.className = "topic-time";
-      time.textContent = `${topic.minutes} min`;
-
-      meta.append(time, status);
-
-      head.append(number);
-      card.append(head, title, summary, meta);
-
-      card.addEventListener("click", () => activateTopic(topic.id));
-      card.addEventListener("keydown", (event) => handleKeyActivate(event, () => activateTopic(topic.id)));
-      card.classList.toggle("done", isCompleted(topic.id));
-
-      return card;
-    }
-
-    function renderTopicGrid(list, grid) {
-      if (!grid) return;
-      grid.innerHTML = "";
-      list.forEach((topic, index) => {
-        const card = createTopicCard(topic);
-        card.style.setProperty("--stagger", index);
-        topicCardMap.set(topic.id, card);
-        grid.appendChild(card);
-      });
-    }
-
-    function renderAllGrids() {
-      topicCardMap.clear();
-      renderTopicGrid(uiTopics, topicGrid);
-      renderTopicGrid(apiTopics, apiTopicGrid);
-    }
-
-    function showView(id) {
-      const viewId = allowedViews.has(id) ? id : "home";
-      currentView = viewId;
-      views.forEach((view) => {
-        const isActive = view.id === viewId;
-        view.hidden = !isActive;
-        if (isActive) {
-          view.classList.remove("animate");
-          void view.offsetWidth;
-          view.classList.add("animate");
-        } else {
-          view.classList.remove("animate");
-        }
+      const list = document.getElementById("track-points");
+      list.innerHTML = "";
+      data.points.forEach((point) => {
+        const item = document.createElement("li");
+        item.textContent = point;
+        list.appendChild(item);
       });
 
-      navButtons.forEach((button) => {
-        const isActive = button.dataset.nav === viewId;
-        button.classList.toggle("primary", isActive);
-        button.classList.toggle("ghost", !isActive);
-      });
+      const link = document.getElementById("track-link");
+      link.href = data.link;
+      link.textContent = data.linkLabel;
     }
 
-    function parseHash() {
-      const raw = window.location.hash.replace("#", "");
-      if (!raw) return { view: "home", topic: null };
-      const [view, topic] = raw.split(":");
-      return {
-        view: allowedViews.has(view) ? view : "home",
-        topic: topic || null
-      };
-    }
-
-    function handleHashChange() {
-      const { view, topic } = parseHash();
-      showView(view);
-
-      if (view === "theory") {
-        const targetId = topic || currentTopicId || topics[0].id;
-        setTopic(targetId);
-        scrollToTop();
-      }
-
-      if (view === "home" && lastView === "theory") {
-        scrollToHomeTopic();
-      }
-
-      lastView = view;
-    }
-
-    function activateTopic(id) {
-      currentTopicId = id;
-      setActiveCards(id);
-      window.location.hash = `theory:${id}`;
-    }
-
-    function handleNavTrigger(event) {
-      const target = event.currentTarget.dataset.nav || "home";
-      const forced = event.currentTarget.dataset.topic || null;
-      if (target === "theory") {
-        const nextId = forced === "first" ? topics[0].id : (forced || currentTopicId || topics[0].id);
-        window.location.hash = `theory:${nextId}`;
-        return;
-      }
-      window.location.hash = target;
-    }
-
-    loadProgress();
     setTheme(getPreferredTheme());
-    renderAllGrids();
-    updateProgressUI();
-    updateCardProgress();
+    setCoffeeLink();
+    populateTrack("typescript");
+    counterTargets.forEach((target) => {
+      const value = target.dataset.count;
+      if (value) target.textContent = value;
+    });
+    window.addEventListener("load", resetInitialScroll, { once: true });
+    window.addEventListener("pageshow", resetInitialScroll, { once: true });
 
-    navTriggers.forEach((trigger) => {
-      trigger.addEventListener("click", handleNavTrigger);
-      trigger.addEventListener("keydown", (event) => handleKeyActivate(event, () => handleNavTrigger(event)));
+    themeToggle.addEventListener("click", () => {
+      const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+      setTheme(nextTheme);
+      localStorage.setItem("portfolio-theme", nextTheme);
     });
 
-    if (copyCode) {
-      copyCode.addEventListener("click", copyCodeToClipboard);
-    }
-    if (toggleCode && codeBlock && codeFade) {
-      toggleCode.addEventListener("click", () => {
-        const expanded = codeBlock.classList.toggle("expanded");
-        toggleCode.textContent = expanded ? "Show less" : "Show more";
-        codeFade.classList.toggle("hidden", expanded);
-      });
-    }
+    trackTabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        trackTabs.forEach((button) => {
+          const isActive = button === tab;
+          button.classList.toggle("active", isActive);
+          button.setAttribute("aria-selected", String(isActive));
+        });
 
-    document.addEventListener("keydown", (event) => {
-      if (event.defaultPrevented) return;
-      if (event.metaKey || event.ctrlKey || event.altKey) return;
-      const key = event.key;
-      if ((key === "n" || key === "p") && !isTypingTarget()) {
-        event.preventDefault();
-        goToOffset(key === "n" ? 1 : -1);
-      }
+        populateTrack(tab.dataset.track);
+      });
     });
 
-    if (completeToggle) {
-      completeToggle.addEventListener("change", () => {
-        setCompleted(currentTopicId, completeToggle.checked);
-      });
-    }
-
-    if (progressReset) {
-      progressReset.addEventListener("click", () => {
-        completedTopics.clear();
-        saveProgress();
-        updateProgressUI();
-        updateCardProgress();
-        updateDetailToggle();
-      });
-    }
-
-    if (themeToggle) {
-      themeToggle.addEventListener("click", () => {
-        const current = document.documentElement.getAttribute("data-theme") || "light";
-        const next = current === "dark" ? "light" : "dark";
-        setTheme(next);
-        try {
-          localStorage.setItem(themeStorageKey, next);
-        } catch (error) {
-          // ignore
-        }
-      });
-    }
-
-    window.addEventListener("hashchange", handleHashChange);
-    handleHashChange();
-    setTopic(currentTopicId);
-</script>
+  </script>
 </body>
 </html>
